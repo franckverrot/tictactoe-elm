@@ -11,9 +11,9 @@ type Player = A
             | B
             | Unclaimed
 
-type alias Model = { boxes  : Array Player
-                   , currentPlayer   : Player
-                   , winner : Maybe Player
+type alias Model = { boxes         : Array Player
+                   , currentPlayer : Player
+                   , winner        : Maybe Player
                    }
 
 type MyEvent = Clicked Int
@@ -21,26 +21,25 @@ type MyEvent = Clicked Int
              | Reset
 
 myModel : Model
-myModel = { boxes = fromList [Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed]
+myModel = { boxes         = fromList [Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed]
           , currentPlayer = A
-          , winner = Nothing
+          , winner        = Nothing
           }
 
 main : Program Never Model MyEvent
-main = program { init = (myModel, Cmd.none)
-               , view  = view
-               , update = update
+main = program { init          = (myModel, Cmd.none)
+               , view          = view
+               , update        = update
                , subscriptions = \x -> Sub.none
                }
 
 showPlayer : Player -> String
-showPlayer player =
-  case player of
-    A -> "A"
-    B -> "B"
-    Unclaimed -> "?"
+showPlayer player = case player of
+                      A -> "A"
+                      B -> "B"
+                      Unclaimed -> "?"
 
-showcurrentPlayer player = text("Hey " ++ (showPlayer player) ++ ", it's your currentPlayer")
+showcurrentPlayer player = text("Hey " ++ (showPlayer player) ++ ", it's your turn")
 
 showBox : Int -> Model -> String
 showBox index model =
