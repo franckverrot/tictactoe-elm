@@ -19,3 +19,9 @@ There are three events in this app:
 3. `CheckWinner player currentPlayerShouldChange time`
   Checks for stalemate or a winner
 ```
+
+## Setup
+
+1. `npm install elm` : to download Elm
+2. `make get-deps` : to downloads packages
+3. `make` : to compile to an HTML file
