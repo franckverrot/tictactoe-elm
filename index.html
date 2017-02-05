@@ -8439,30 +8439,30 @@ var _user$project$Update$playerWon = F2(
 		var diag2 = A3(check, 6, 4, 2);
 		return (row1 || (row2 || (row3 || (col1 || (col2 || (col3 || (diag1 || diag2))))))) ? _elm_lang$core$Result$Ok(model.currentPlayer) : _elm_lang$core$Result$Err('Not there yet!');
 	});
+var _user$project$Update$staleMate = function (ary) {
+	return _elm_lang$core$Native_Utils.eq(
+		0,
+		_elm_lang$core$Array$length(
+			A2(
+				_elm_lang$core$Array$filter,
+				function (x) {
+					return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
+				},
+				ary)));
+};
+var _user$project$Update$changePlayer = function (p) {
+	var _p0 = p;
+	switch (_p0.ctor) {
+		case 'A':
+			return _user$project$Player$B;
+		case 'B':
+			return _user$project$Player$A;
+		default:
+			return _user$project$Player$A;
+	}
+};
 var _user$project$Update$update = F2(
 	function (msg, model) {
-		var staleMate = function (ary) {
-			return _elm_lang$core$Native_Utils.eq(
-				0,
-				_elm_lang$core$Array$length(
-					A2(
-						_elm_lang$core$Array$filter,
-						function (x) {
-							return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
-						},
-						ary)));
-		};
-		var changePlayer = function (p) {
-			var _p0 = p;
-			switch (_p0.ctor) {
-				case 'A':
-					return _user$project$Player$B;
-				case 'B':
-					return _user$project$Player$A;
-				default:
-					return _user$project$Player$A;
-			}
-		};
 		var _p1 = msg;
 		switch (_p1.ctor) {
 			case 'Reset':
@@ -8472,7 +8472,7 @@ var _user$project$Update$update = F2(
 					{ctor: '[]'});
 			case 'CheckWinner':
 				var _p4 = _p1._0;
-				if (staleMate(model.boxes)) {
+				if (_user$project$Update$staleMate(model.boxes)) {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
@@ -8500,7 +8500,7 @@ var _user$project$Update$update = F2(
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
-										currentPlayer: changePlayer(_p4)
+										currentPlayer: _user$project$Update$changePlayer(_p4)
 									}),
 								{ctor: '[]'});
 						}

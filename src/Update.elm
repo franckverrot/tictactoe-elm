@@ -6,6 +6,18 @@ import Model                   exposing (..)
 import MyEvent                 exposing (..)
 import Player                  exposing (..)
 
+changePlayer : Player -> Player
+changePlayer p = case p of
+                   A -> B
+                   B -> A
+                   _ -> A
+
+staleMate : Array Player -> Bool
+staleMate ary = (0 == length(filter (\x -> x == Unclaimed) ary))
+
+type alias GameStatus = Result String Player
+
+playerWon : Player -> Model -> GameStatus
 playerWon player model =
   let
       myGet i =  Maybe.withDefault Unclaimed (get i model.boxes)
@@ -29,28 +41,18 @@ playerWon player model =
 
 update : MyEvent -> Model -> (Model, Cmd MyEvent)
 update msg model =
-  let
-      changePlayer p = case p of
-                      A -> B
-                      B -> A
-                      _ -> A
-      staleMate : Array Player -> Bool
-      staleMate ary = (0 == length(filter (\x -> x == Unclaimed) ary))
+  case msg of
+    Reset -> initialModel ! []
 
-  in
-    case msg of
-      Reset ->
-        initialModel ! []
+    CheckWinner player currentPlayerShouldChange time ->
+      if staleMate model.boxes then
+        { model | winner = Just Unclaimed } ! []
+      else
+        case currentPlayerShouldChange of
+          True -> case playerWon player model of
+                    Ok player -> { model | winner        = Just player         } ! []
+                    Err _     -> { model | currentPlayer = changePlayer player } ! []
 
-      CheckWinner player currentPlayerShouldChange time ->
-        if staleMate model.boxes then
-          { model | winner = Just Unclaimed } ! []
-        else
-          case currentPlayerShouldChange of
-            True -> case playerWon player model of
-                      Ok player -> { model | winner = Just player } ! []
-                      Err _     -> { model | currentPlayer = changePlayer player } ! []
+          False -> model ! []
 
-            False -> model ! []
-
-      Clicked index -> EventHandlers.OnClicked.onClicked model index
+    Clicked index -> EventHandlers.OnClicked.onClicked model index
