@@ -1,7 +1,7 @@
 module Update exposing (update)
 
 import Array                   exposing (..)
-import EventHandlers.OnClicked exposing (onClicked)
+import EventHandlers.OnClicked
 import Model                   exposing (..)
 import MyEvent                 exposing (..)
 import Player                  exposing (..)
@@ -45,17 +45,12 @@ update msg model =
       CheckWinner player currentPlayerShouldChange time ->
         if staleMate model.boxes then
           { model | winner = Just Unclaimed } ! []
-        else if currentPlayerShouldChange then
-          case playerWon player model of
-            Ok player -> { model
-                         | winner = Just player
-                         } ! []
-
-            Err _     -> { model
-                         | currentPlayer = changePlayer player
-                         } ! []
         else
-          model ! []
+          case currentPlayerShouldChange of
+            True -> case playerWon player model of
+                      Ok player -> { model | winner = Just player } ! []
+                      Err _     -> { model | currentPlayer = changePlayer player } ! []
 
+            False -> model ! []
 
-      Clicked index -> onClicked model index
+      Clicked index -> EventHandlers.OnClicked.onClicked model index

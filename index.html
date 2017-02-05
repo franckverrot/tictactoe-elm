@@ -8471,7 +8471,7 @@ var _user$project$Update$update = F2(
 					_user$project$Model$initialModel,
 					{ctor: '[]'});
 			case 'CheckWinner':
-				var _p3 = _p1._0;
+				var _p4 = _p1._0;
 				if (staleMate(model.boxes)) {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
@@ -8482,15 +8482,16 @@ var _user$project$Update$update = F2(
 							}),
 						{ctor: '[]'});
 				} else {
-					if (_p1._1) {
-						var _p2 = A2(_user$project$Update$playerWon, _p3, model);
-						if (_p2.ctor === 'Ok') {
+					var _p2 = _p1._1;
+					if (_p2 === true) {
+						var _p3 = A2(_user$project$Update$playerWon, _p4, model);
+						if (_p3.ctor === 'Ok') {
 							return A2(
 								_elm_lang$core$Platform_Cmd_ops['!'],
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
-										winner: _elm_lang$core$Maybe$Just(_p2._0)
+										winner: _elm_lang$core$Maybe$Just(_p3._0)
 									}),
 								{ctor: '[]'});
 						} else {
@@ -8499,7 +8500,7 @@ var _user$project$Update$update = F2(
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
-										currentPlayer: changePlayer(_p3)
+										currentPlayer: changePlayer(_p4)
 									}),
 								{ctor: '[]'});
 						}
