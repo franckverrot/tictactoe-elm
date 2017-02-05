@@ -1,4 +1,4 @@
-module OnClicked exposing ( onClicked )
+module EventHandlers.OnClicked exposing ( onClicked )
 
 {-| Handlers onClick event
 
