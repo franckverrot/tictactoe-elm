@@ -8397,46 +8397,159 @@ var _user$project$EventHandlers_OnClicked$onClicked = F2(
 	});
 var _user$project$Update$playerWon = F2(
 	function (player, model) {
-		var isPlayer = function (x) {
-			return _elm_lang$core$Native_Utils.eq(x, player);
-		};
-		var myGet = function (i) {
-			return A2(
-				_elm_lang$core$Maybe$withDefault,
-				_user$project$Player$Unclaimed,
-				A2(_elm_lang$core$Array$get, i, model.boxes));
-		};
-		var check = F3(
-			function (a, b, c) {
-				return _elm_lang$core$Native_Utils.eq(
+		var check = F2(
+			function (indices, ary) {
+				return A2(
+					F2(
+						function (x, y) {
+							return _elm_lang$core$Native_Utils.eq(x, y);
+						}),
 					3,
 					_elm_lang$core$Array$length(
 						A2(
 							_elm_lang$core$Array$filter,
-							isPlayer,
-							_elm_lang$core$Array$fromList(
-								{
-									ctor: '::',
-									_0: myGet(a),
-									_1: {
-										ctor: '::',
-										_0: myGet(b),
-										_1: {
-											ctor: '::',
-											_0: myGet(c),
-											_1: {ctor: '[]'}
-										}
-									}
-								}))));
+							F2(
+								function (x, y) {
+									return _elm_lang$core$Native_Utils.eq(x, y);
+								})(player),
+							A2(
+								_elm_lang$core$Array$map,
+								function (index) {
+									return A2(
+										_elm_lang$core$Maybe$withDefault,
+										_user$project$Player$Unclaimed,
+										A2(_elm_lang$core$Array$get, index, ary));
+								},
+								_elm_lang$core$Array$fromList(indices)))));
 			});
-		var row1 = A3(check, 0, 1, 2);
-		var row2 = A3(check, 3, 4, 5);
-		var row3 = A3(check, 6, 7, 8);
-		var col1 = A3(check, 0, 3, 6);
-		var col2 = A3(check, 1, 4, 7);
-		var col3 = A3(check, 2, 5, 8);
-		var diag1 = A3(check, 0, 4, 8);
-		var diag2 = A3(check, 6, 4, 2);
+		var row1 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 0,
+				_1: {
+					ctor: '::',
+					_0: 1,
+					_1: {
+						ctor: '::',
+						_0: 2,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var row2 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 3,
+				_1: {
+					ctor: '::',
+					_0: 4,
+					_1: {
+						ctor: '::',
+						_0: 5,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var row3 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 6,
+				_1: {
+					ctor: '::',
+					_0: 7,
+					_1: {
+						ctor: '::',
+						_0: 8,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var col1 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 0,
+				_1: {
+					ctor: '::',
+					_0: 3,
+					_1: {
+						ctor: '::',
+						_0: 6,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var col2 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 1,
+				_1: {
+					ctor: '::',
+					_0: 4,
+					_1: {
+						ctor: '::',
+						_0: 7,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var col3 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 2,
+				_1: {
+					ctor: '::',
+					_0: 5,
+					_1: {
+						ctor: '::',
+						_0: 8,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var diag1 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 0,
+				_1: {
+					ctor: '::',
+					_0: 4,
+					_1: {
+						ctor: '::',
+						_0: 8,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
+		var diag2 = A2(
+			check,
+			{
+				ctor: '::',
+				_0: 6,
+				_1: {
+					ctor: '::',
+					_0: 4,
+					_1: {
+						ctor: '::',
+						_0: 2,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			model.boxes);
 		return (row1 || (row2 || (row3 || (col1 || (col2 || (col3 || (diag1 || diag2))))))) ? _elm_lang$core$Result$Ok(model.currentPlayer) : _elm_lang$core$Result$Err('Not there yet!');
 	});
 var _user$project$Update$staleMate = function (ary) {
