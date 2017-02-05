@@ -16,14 +16,16 @@ import Time    exposing (..)
 onClicked : Model -> Int -> (Model, Cmd MyEvent)
 onClicked model index =
         let
-            markBoxForPlayer = set index model.currentPlayer model.boxes
-            leaveBoardIntact = model.boxes
+            markBoxForPlayer player = set index player
+            leaveBoardIntact player = identity
         in
             get index model.boxes
               |> Maybe.withDefault Unclaimed
-              |> (\box ->
-                   case box of
-                     Unclaimed -> (markBoxForPlayer, True)
-                     _         -> (leaveBoardIntact, False))
-              |> \(boxes, validMove) ->
-                   { model | boxes = boxes } ! [ Task.perform (CheckWinner model.currentPlayer validMove) Time.now ]
+              |> (\box -> case box of
+                            Unclaimed -> (markBoxForPlayer, True)
+                            _         -> (leaveBoardIntact, False))
+              |> \(transformBoard, validMove) ->
+                   ( transformBoard model.currentPlayer model.boxes
+                   , CheckWinner model.currentPlayer validMove)
+              |> \(boxes, checkToRun) ->
+                   { model | boxes = boxes } ! [ Task.perform checkToRun Time.now ]

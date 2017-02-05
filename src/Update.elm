@@ -48,7 +48,7 @@ update msg model =
   case msg of
     Reset -> initialModel ! []
 
-    CheckWinner player currentPlayerShouldChange time ->
+    CheckWinner player currentPlayerShouldChange _ ->
       if staleMate model.boxes then
         { model | winner = Just Unclaimed } ! []
       else

@@ -8358,27 +8358,36 @@ var _user$project$MyEvent$Clicked = function (a) {
 
 var _user$project$EventHandlers_OnClicked$onClicked = F2(
 	function (model, index) {
-		var leaveBoardIntact = model.boxes;
-		var markBoxForPlayer = A3(_elm_lang$core$Array$set, index, model.currentPlayer, model.boxes);
+		var leaveBoardIntact = function (player) {
+			return _elm_lang$core$Basics$identity;
+		};
+		var markBoxForPlayer = function (player) {
+			return A2(_elm_lang$core$Array$set, index, player);
+		};
 		return function (_p0) {
 			var _p1 = _p0;
-			return A2(
-				_elm_lang$core$Platform_Cmd_ops['!'],
-				_elm_lang$core$Native_Utils.update(
-					model,
-					{boxes: _p1._0}),
+			return function (_p2) {
+				var _p3 = _p2;
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{boxes: _p3._0}),
+					{
+						ctor: '::',
+						_0: A2(_elm_lang$core$Task$perform, _p3._1, _elm_lang$core$Time$now),
+						_1: {ctor: '[]'}
+					});
+			}(
 				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$core$Task$perform,
-						A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, _p1._1),
-						_elm_lang$core$Time$now),
-					_1: {ctor: '[]'}
+					ctor: '_Tuple2',
+					_0: A2(_p1._0, model.currentPlayer, model.boxes),
+					_1: A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, _p1._1)
 				});
 		}(
 			function (box) {
-				var _p2 = box;
-				if (_p2.ctor === 'Unclaimed') {
+				var _p4 = box;
+				if (_p4.ctor === 'Unclaimed') {
 					return {ctor: '_Tuple2', _0: markBoxForPlayer, _1: true};
 				} else {
 					return {ctor: '_Tuple2', _0: leaveBoardIntact, _1: false};
