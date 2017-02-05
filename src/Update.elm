@@ -20,27 +20,29 @@ type alias GameStatus = Result String Player
 playerWon : Player -> Model -> GameStatus
 playerWon player model =
   let
-      check : List Int -> Array Player -> Bool
-      check indices ary = fromList indices
-                            |> map (\index -> (get index ary |> Maybe.withDefault Unclaimed))
-                            |> filter ((==) player)
-                            |> length
-                            |> (==) 3
-      row1  = check [0, 1, 2] model.boxes
-      row2  = check [3, 4, 5] model.boxes
-      row3  = check [6, 7, 8] model.boxes
+      check : Player -> List Int -> Array Player -> Bool
+      check player indices ary =
+        fromList indices
+          |> map (\index -> (get index ary |> Maybe.withDefault Unclaimed))
+          |> filter ((==) player)
+          |> length
+          |> (==) 3
 
-      col1  = check [0, 3, 6] model.boxes
-      col2  = check [1, 4, 7] model.boxes
-      col3  = check [2, 5, 8] model.boxes
+      currentPlayerWinning : Player -> Array Player -> Bool
+      currentPlayerWinning currentPlayer boxes =
+        fromList [
+          -- rows     -- cols    -- diags
+          [0, 1, 2] , [0, 3, 6], [0, 4, 8]
+        , [3, 4, 5] , [1, 4, 7], [6, 4, 2]
+        , [6, 7, 8] , [2, 5, 8]]
+          |> map (\indices -> check currentPlayer indices boxes)
+          |> filter ((==) True)
+          |> isEmpty |> not
 
-      diag1 = check [0, 4, 8] model.boxes
-      diag2 = check [6, 4, 2] model.boxes
   in
-     if row1 || row2 || row3 || col1 || col2 || col3 || diag1 || diag2 then
-       Ok model.currentPlayer
-     else
-       Err "Not there yet!"
+     case currentPlayerWinning player model.boxes of
+       True  -> Ok player
+       False -> Err "Not there yet!"
 
 update : MyEvent -> Model -> (Model, Cmd MyEvent)
 update msg model =

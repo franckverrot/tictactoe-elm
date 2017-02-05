@@ -11,7 +11,7 @@ type alias Model = { boxes         : Array Player
                    }
 
 initialModel : Model
-initialModel = { boxes         = fromList [Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed]
+initialModel = { boxes         = repeat 9 Unclaimed
                , currentPlayer = A
                , winner        = Nothing
                }
