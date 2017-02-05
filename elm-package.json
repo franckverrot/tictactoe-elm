@@ -5,8 +5,11 @@
     "license": "BSD3",
     "source-directories": [
         "."
+      , "event_handlers"
     ],
-    "exposed-modules": [],
+    "exposed-modules": [
+        "OnClicked"
+    ],
     "dependencies": {
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0"

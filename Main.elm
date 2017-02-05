@@ -1,24 +1,14 @@
-import Html exposing (..)
+import Array       exposing (..)
+import Html        exposing (..)
 import Html.Events exposing (..)
-import Array exposing (..)
-import Maybe exposing (..)
-import Result exposing (..)
-import Debug exposing (..)
-import Task exposing (..)
-import Time exposing (..)
+import Maybe       exposing (..)
+import Model       exposing (..)
+import MyEvent     exposing (..)
+import Player      exposing (..)
+import OnClicked exposing (onClicked)
+import Result      exposing (..)
+import Time        exposing (..)
 
-type Player = A
-            | B
-            | Unclaimed
-
-type alias Model = { boxes         : Array Player
-                   , currentPlayer : Player
-                   , winner        : Maybe Player
-                   }
-
-type MyEvent = Clicked Int
-             | CheckWinner Player Bool Time
-             | Reset
 
 myModel : Model
 myModel = { boxes         = fromList [Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed,Unclaimed]
@@ -125,19 +115,5 @@ update msg model =
           model ! []
 
 
-      Clicked index ->
-        let
-            previousValue = Maybe.withDefault Unclaimed (get index model.boxes)
-            boxes =
-              case previousValue of
-                Unclaimed -> set index model.currentPlayer model.boxes
-                _         -> model.boxes
-            currentPlayerShouldChange =
-              case previousValue of
-                Unclaimed -> True
-                _         -> False
+      Clicked index -> onClicked model index
 
-        in
-            { model
-            | boxes = boxes
-            } ! [(Task.perform (CheckWinner model.currentPlayer currentPlayerShouldChange) Time.now)]

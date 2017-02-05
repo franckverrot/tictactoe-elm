@@ -8291,37 +8291,56 @@ var _elm_lang$html$Html_Events$Options = F2(
 	function (a, b) {
 		return {stopPropagation: a, preventDefault: b};
 	});
-var _user$project$Main$showPlayer = function (player) {
-	var _p0 = player;
-	switch (_p0.ctor) {
-		case 'A':
-			return 'A';
-		case 'B':
-			return 'B';
-		default:
-			return '?';
-	}
-};
-var _user$project$Main$showcurrentPlayer = function (player) {
-	return _elm_lang$html$Html$text(
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Hey ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_user$project$Main$showPlayer(player),
-				', it\'s your turn')));
-};
-var _user$project$Main$Model = F3(
+var _user$project$Player$Unclaimed = {ctor: 'Unclaimed'};
+var _user$project$Player$B = {ctor: 'B'};
+var _user$project$Player$A = {ctor: 'A'};
+var _user$project$Model$Model = F3(
 	function (a, b, c) {
 		return {boxes: a, currentPlayer: b, winner: c};
 	});
-var _user$project$Main$Unclaimed = {ctor: 'Unclaimed'};
-var _user$project$Main$showBox = F2(
-	function (index, model) {
-		var player = A2(_elm_lang$core$Array$get, index, model.boxes);
-		return _user$project$Main$showPlayer(
-			A2(_elm_lang$core$Maybe$withDefault, _user$project$Main$Unclaimed, player));
+var _user$project$MyEvent$Reset = {ctor: 'Reset'};
+var _user$project$MyEvent$CheckWinner = F3(
+	function (a, b, c) {
+		return {ctor: 'CheckWinner', _0: a, _1: b, _2: c};
+	});
+var _user$project$MyEvent$Clicked = function (a) {
+	return {ctor: 'Clicked', _0: a};
+};
+var _user$project$OnClicked$onClicked = F2(
+	function (model, index) {
+		var previousValue = A2(
+			_elm_lang$core$Maybe$withDefault,
+			_user$project$Player$Unclaimed,
+			A2(_elm_lang$core$Array$get, index, model.boxes));
+		var boxes = function () {
+			var _p0 = previousValue;
+			if (_p0.ctor === 'Unclaimed') {
+				return A3(_elm_lang$core$Array$set, index, model.currentPlayer, model.boxes);
+			} else {
+				return model.boxes;
+			}
+		}();
+		var currentPlayerShouldChange = function () {
+			var _p1 = previousValue;
+			if (_p1.ctor === 'Unclaimed') {
+				return true;
+			} else {
+				return false;
+			}
+		}();
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			_elm_lang$core$Native_Utils.update(
+				model,
+				{boxes: boxes}),
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$core$Task$perform,
+					A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, currentPlayerShouldChange),
+					_elm_lang$core$Time$now),
+				_1: {ctor: '[]'}
+			});
 	});
 var _user$project$Main$playerWon = F2(
 	function (player, model) {
@@ -8331,7 +8350,7 @@ var _user$project$Main$playerWon = F2(
 		var myGet = function (i) {
 			return A2(
 				_elm_lang$core$Maybe$withDefault,
-				_user$project$Main$Unclaimed,
+				_user$project$Player$Unclaimed,
 				A2(_elm_lang$core$Array$get, i, model.boxes));
 		};
 		var check = F3(
@@ -8367,166 +8386,33 @@ var _user$project$Main$playerWon = F2(
 		var diag2 = A3(check, 6, 4, 2);
 		return (row1 || (row2 || (row3 || (col1 || (col2 || (col3 || (diag1 || diag2))))))) ? _elm_lang$core$Result$Ok(model.currentPlayer) : _elm_lang$core$Result$Err('Not there yet!');
 	});
-var _user$project$Main$B = {ctor: 'B'};
-var _user$project$Main$A = {ctor: 'A'};
-var _user$project$Main$myModel = {
-	boxes: _elm_lang$core$Array$fromList(
-		{
-			ctor: '::',
-			_0: _user$project$Main$Unclaimed,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Main$Unclaimed,
-				_1: {
-					ctor: '::',
-					_0: _user$project$Main$Unclaimed,
-					_1: {
-						ctor: '::',
-						_0: _user$project$Main$Unclaimed,
-						_1: {
-							ctor: '::',
-							_0: _user$project$Main$Unclaimed,
-							_1: {
-								ctor: '::',
-								_0: _user$project$Main$Unclaimed,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Main$Unclaimed,
-									_1: {
-										ctor: '::',
-										_0: _user$project$Main$Unclaimed,
-										_1: {
-											ctor: '::',
-											_0: _user$project$Main$Unclaimed,
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}),
-	currentPlayer: _user$project$Main$A,
-	winner: _elm_lang$core$Maybe$Nothing
+var _user$project$Main$showPlayer = function (player) {
+	var _p0 = player;
+	switch (_p0.ctor) {
+		case 'A':
+			return 'A';
+		case 'B':
+			return 'B';
+		default:
+			return '?';
+	}
 };
-var _user$project$Main$Reset = {ctor: 'Reset'};
-var _user$project$Main$CheckWinner = F3(
-	function (a, b, c) {
-		return {ctor: 'CheckWinner', _0: a, _1: b, _2: c};
-	});
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var staleMate = function (ary) {
-			return _elm_lang$core$Native_Utils.eq(
-				0,
-				_elm_lang$core$Array$length(
-					A2(
-						_elm_lang$core$Array$filter,
-						function (x) {
-							return _elm_lang$core$Native_Utils.eq(x, _user$project$Main$Unclaimed);
-						},
-						ary)));
-		};
-		var changePlayer = function (p) {
-			var _p1 = p;
-			switch (_p1.ctor) {
-				case 'A':
-					return _user$project$Main$B;
-				case 'B':
-					return _user$project$Main$A;
-				default:
-					return _user$project$Main$A;
-			}
-		};
-		var _p2 = msg;
-		switch (_p2.ctor) {
-			case 'Reset':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_user$project$Main$myModel,
-					{ctor: '[]'});
-			case 'CheckWinner':
-				var _p4 = _p2._0;
-				if (staleMate(model.boxes)) {
-					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						_elm_lang$core$Native_Utils.update(
-							model,
-							{
-								winner: _elm_lang$core$Maybe$Just(_user$project$Main$Unclaimed)
-							}),
-						{ctor: '[]'});
-				} else {
-					if (_p2._1) {
-						var _p3 = A2(_user$project$Main$playerWon, _p4, model);
-						if (_p3.ctor === 'Ok') {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								_elm_lang$core$Native_Utils.update(
-									model,
-									{
-										winner: _elm_lang$core$Maybe$Just(_p3._0)
-									}),
-								{ctor: '[]'});
-						} else {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								_elm_lang$core$Native_Utils.update(
-									model,
-									{
-										currentPlayer: changePlayer(_p4)
-									}),
-								{ctor: '[]'});
-						}
-					} else {
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							model,
-							{ctor: '[]'});
-					}
-				}
-			default:
-				var _p7 = _p2._0;
-				var previousValue = A2(
-					_elm_lang$core$Maybe$withDefault,
-					_user$project$Main$Unclaimed,
-					A2(_elm_lang$core$Array$get, _p7, model.boxes));
-				var boxes = function () {
-					var _p5 = previousValue;
-					if (_p5.ctor === 'Unclaimed') {
-						return A3(_elm_lang$core$Array$set, _p7, model.currentPlayer, model.boxes);
-					} else {
-						return model.boxes;
-					}
-				}();
-				var currentPlayerShouldChange = function () {
-					var _p6 = previousValue;
-					if (_p6.ctor === 'Unclaimed') {
-						return true;
-					} else {
-						return false;
-					}
-				}();
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{boxes: boxes}),
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$core$Task$perform,
-							A2(_user$project$Main$CheckWinner, model.currentPlayer, currentPlayerShouldChange),
-							_elm_lang$core$Time$now),
-						_1: {ctor: '[]'}
-					});
-		}
-	});
-var _user$project$Main$Clicked = function (a) {
-	return {ctor: 'Clicked', _0: a};
+var _user$project$Main$showcurrentPlayer = function (player) {
+	return _elm_lang$html$Html$text(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'Hey ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Main$showPlayer(player),
+				', it\'s your turn')));
 };
+var _user$project$Main$showBox = F2(
+	function (index, model) {
+		var player = A2(_elm_lang$core$Array$get, index, model.boxes);
+		return _user$project$Main$showPlayer(
+			A2(_elm_lang$core$Maybe$withDefault, _user$project$Player$Unclaimed, player));
+	});
 var _user$project$Main$view = function (model) {
 	var box = function (i) {
 		return A2(
@@ -8534,7 +8420,7 @@ var _user$project$Main$view = function (model) {
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					_user$project$Main$Clicked(i)),
+					_user$project$MyEvent$Clicked(i)),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -8544,8 +8430,8 @@ var _user$project$Main$view = function (model) {
 				_1: {ctor: '[]'}
 			});
 	};
-	var _p8 = model.winner;
-	if (_p8.ctor === 'Nothing') {
+	var _p1 = model.winner;
+	if (_p1.ctor === 'Nothing') {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -8612,7 +8498,7 @@ var _user$project$Main$view = function (model) {
 				}
 			});
 	} else {
-		if (_p8._0.ctor === 'Unclaimed') {
+		if (_p1._0.ctor === 'Unclaimed') {
 			return A2(
 				_elm_lang$html$Html$div,
 				{ctor: '[]'},
@@ -8625,7 +8511,7 @@ var _user$project$Main$view = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Reset),
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -8648,7 +8534,7 @@ var _user$project$Main$view = function (model) {
 							'Player ',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_user$project$Main$showPlayer(_p8._0),
+								_user$project$Main$showPlayer(_p1._0),
 								' wins!'))),
 					_1: {
 						ctor: '::',
@@ -8656,7 +8542,7 @@ var _user$project$Main$view = function (model) {
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Reset),
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -8670,6 +8556,123 @@ var _user$project$Main$view = function (model) {
 		}
 	}
 };
+var _user$project$Main$myModel = {
+	boxes: _elm_lang$core$Array$fromList(
+		{
+			ctor: '::',
+			_0: _user$project$Player$Unclaimed,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Player$Unclaimed,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Player$Unclaimed,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Player$Unclaimed,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Player$Unclaimed,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Player$Unclaimed,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Player$Unclaimed,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Player$Unclaimed,
+										_1: {
+											ctor: '::',
+											_0: _user$project$Player$Unclaimed,
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}),
+	currentPlayer: _user$project$Player$A,
+	winner: _elm_lang$core$Maybe$Nothing
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var staleMate = function (ary) {
+			return _elm_lang$core$Native_Utils.eq(
+				0,
+				_elm_lang$core$Array$length(
+					A2(
+						_elm_lang$core$Array$filter,
+						function (x) {
+							return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
+						},
+						ary)));
+		};
+		var changePlayer = function (p) {
+			var _p2 = p;
+			switch (_p2.ctor) {
+				case 'A':
+					return _user$project$Player$B;
+				case 'B':
+					return _user$project$Player$A;
+				default:
+					return _user$project$Player$A;
+			}
+		};
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'Reset':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_user$project$Main$myModel,
+					{ctor: '[]'});
+			case 'CheckWinner':
+				var _p5 = _p3._0;
+				if (staleMate(model.boxes)) {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{
+								winner: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
+							}),
+						{ctor: '[]'});
+				} else {
+					if (_p3._1) {
+						var _p4 = A2(_user$project$Main$playerWon, _p5, model);
+						if (_p4.ctor === 'Ok') {
+							return A2(
+								_elm_lang$core$Platform_Cmd_ops['!'],
+								_elm_lang$core$Native_Utils.update(
+									model,
+									{
+										winner: _elm_lang$core$Maybe$Just(_p4._0)
+									}),
+								{ctor: '[]'});
+						} else {
+							return A2(
+								_elm_lang$core$Platform_Cmd_ops['!'],
+								_elm_lang$core$Native_Utils.update(
+									model,
+									{
+										currentPlayer: changePlayer(_p5)
+									}),
+								{ctor: '[]'});
+						}
+					} else {
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							model,
+							{ctor: '[]'});
+					}
+				}
+			default:
+				return A2(_user$project$OnClicked$onClicked, model, _p3._0);
+		}
+	});
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{
 		init: {ctor: '_Tuple2', _0: _user$project$Main$myModel, _1: _elm_lang$core$Platform_Cmd$none},
@@ -8683,6 +8686,14 @@ var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
     _user$project$Main$main(Elm['Main'], 'Main', undefined);
+}
+Elm['Model'] = Elm['Model'] || {};
+if (typeof _user$project$Model$main !== 'undefined') {
+    _user$project$Model$main(Elm['Model'], 'Model', undefined);
+}
+Elm['Player'] = Elm['Player'] || {};
+if (typeof _user$project$Player$main !== 'undefined') {
+    _user$project$Player$main(Elm['Player'], 'Player', undefined);
 }
 
 if (typeof define === "function" && define['amd'])
