@@ -6,7 +6,6 @@ import Html.Events exposing (..)
 import Model       exposing (..)
 import MyEvent     exposing (..)
 import Player      exposing (..)
-import Result      exposing (..)
 
 view : Model -> Html MyEvent
 view model =

@@ -2,7 +2,7 @@ module Model exposing ( Model
                       , initialModel
                       )
 
-import Array exposing (..)
+import Array  exposing (..)
 import Player exposing (..)
 
 type alias Model = { boxes         : Array Player

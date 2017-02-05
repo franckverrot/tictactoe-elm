@@ -8393,8 +8393,8 @@ var _user$project$EventHandlers_OnClicked$onClicked = F2(
 			});
 	});
 
-var _user$project$Update$playerWon = F2(
-	function (player, model) {
+var _user$project$Update$currentPlayerWinning = F2(
+	function (currentPlayer, boxes) {
 		var check = F3(
 			function (player, indices, ary) {
 				return A2(
@@ -8420,32 +8420,60 @@ var _user$project$Update$playerWon = F2(
 								},
 								_elm_lang$core$Array$fromList(indices)))));
 			});
-		var currentPlayerWinning = F2(
-			function (currentPlayer, boxes) {
-				return !_elm_lang$core$Array$isEmpty(
-					A2(
-						_elm_lang$core$Array$filter,
-						F2(
-							function (x, y) {
-								return _elm_lang$core$Native_Utils.eq(x, y);
-							})(true),
-						A2(
-							_elm_lang$core$Array$map,
-							function (indices) {
-								return A3(check, currentPlayer, indices, boxes);
+		return !_elm_lang$core$Array$isEmpty(
+			A2(
+				_elm_lang$core$Array$filter,
+				F2(
+					function (x, y) {
+						return _elm_lang$core$Native_Utils.eq(x, y);
+					})(true),
+				A2(
+					_elm_lang$core$Array$map,
+					function (indices) {
+						return A3(check, currentPlayer, indices, boxes);
+					},
+					_elm_lang$core$Array$fromList(
+						{
+							ctor: '::',
+							_0: {
+								ctor: '::',
+								_0: 0,
+								_1: {
+									ctor: '::',
+									_0: 1,
+									_1: {
+										ctor: '::',
+										_0: 2,
+										_1: {ctor: '[]'}
+									}
+								}
 							},
-							_elm_lang$core$Array$fromList(
-								{
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '::',
+									_0: 0,
+									_1: {
+										ctor: '::',
+										_0: 3,
+										_1: {
+											ctor: '::',
+											_0: 6,
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								_1: {
 									ctor: '::',
 									_0: {
 										ctor: '::',
 										_0: 0,
 										_1: {
 											ctor: '::',
-											_0: 1,
+											_0: 4,
 											_1: {
 												ctor: '::',
-												_0: 2,
+												_0: 8,
 												_1: {ctor: '[]'}
 											}
 										}
@@ -8454,13 +8482,13 @@ var _user$project$Update$playerWon = F2(
 										ctor: '::',
 										_0: {
 											ctor: '::',
-											_0: 0,
+											_0: 3,
 											_1: {
 												ctor: '::',
-												_0: 3,
+												_0: 4,
 												_1: {
 													ctor: '::',
-													_0: 6,
+													_0: 5,
 													_1: {ctor: '[]'}
 												}
 											}
@@ -8469,13 +8497,13 @@ var _user$project$Update$playerWon = F2(
 											ctor: '::',
 											_0: {
 												ctor: '::',
-												_0: 0,
+												_0: 1,
 												_1: {
 													ctor: '::',
 													_0: 4,
 													_1: {
 														ctor: '::',
-														_0: 8,
+														_0: 7,
 														_1: {ctor: '[]'}
 													}
 												}
@@ -8484,13 +8512,13 @@ var _user$project$Update$playerWon = F2(
 												ctor: '::',
 												_0: {
 													ctor: '::',
-													_0: 3,
+													_0: 6,
 													_1: {
 														ctor: '::',
 														_0: 4,
 														_1: {
 															ctor: '::',
-															_0: 5,
+															_0: 2,
 															_1: {ctor: '[]'}
 														}
 													}
@@ -8499,13 +8527,13 @@ var _user$project$Update$playerWon = F2(
 													ctor: '::',
 													_0: {
 														ctor: '::',
-														_0: 1,
+														_0: 6,
 														_1: {
 															ctor: '::',
-															_0: 4,
+															_0: 7,
 															_1: {
 																ctor: '::',
-																_0: 7,
+																_0: 8,
 																_1: {ctor: '[]'}
 															}
 														}
@@ -8514,58 +8542,30 @@ var _user$project$Update$playerWon = F2(
 														ctor: '::',
 														_0: {
 															ctor: '::',
-															_0: 6,
+															_0: 2,
 															_1: {
 																ctor: '::',
-																_0: 4,
+																_0: 5,
 																_1: {
 																	ctor: '::',
-																	_0: 2,
+																	_0: 8,
 																	_1: {ctor: '[]'}
 																}
 															}
 														},
-														_1: {
-															ctor: '::',
-															_0: {
-																ctor: '::',
-																_0: 6,
-																_1: {
-																	ctor: '::',
-																	_0: 7,
-																	_1: {
-																		ctor: '::',
-																		_0: 8,
-																		_1: {ctor: '[]'}
-																	}
-																}
-															},
-															_1: {
-																ctor: '::',
-																_0: {
-																	ctor: '::',
-																	_0: 2,
-																	_1: {
-																		ctor: '::',
-																		_0: 5,
-																		_1: {
-																			ctor: '::',
-																			_0: 8,
-																			_1: {ctor: '[]'}
-																		}
-																	}
-																},
-																_1: {ctor: '[]'}
-															}
-														}
+														_1: {ctor: '[]'}
 													}
 												}
 											}
 										}
 									}
-								}))));
-			});
-		var _p0 = A2(currentPlayerWinning, player, model.boxes);
+								}
+							}
+						}))));
+	});
+var _user$project$Update$playerWon = F2(
+	function (player, model) {
+		var _p0 = A2(_user$project$Update$currentPlayerWinning, player, model.boxes);
 		if (_p0 === true) {
 			return _elm_lang$core$Result$Ok(player);
 		} else {
