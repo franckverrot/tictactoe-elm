@@ -8514,12 +8514,6 @@ var _user$project$Update$update = F2(
 				return A2(_user$project$EventHandlers_OnClicked$onClicked, model, _p1._0);
 		}
 	});
-var _user$project$View$showBox = F2(
-	function (index, model) {
-		var player = A2(_elm_lang$core$Array$get, index, model.boxes);
-		return _user$project$Player$show(
-			A2(_elm_lang$core$Maybe$withDefault, _user$project$Player$Unclaimed, player));
-	});
 var _user$project$View$view = function (model) {
 	var showPlayer = function (player) {
 		return _elm_lang$html$Html$text(
@@ -8531,6 +8525,14 @@ var _user$project$View$view = function (model) {
 					_user$project$Player$show(player),
 					', it\'s your turn')));
 	};
+	var showBox = F2(
+		function (index, model) {
+			return _user$project$Player$show(
+				A2(
+					_elm_lang$core$Maybe$withDefault,
+					_user$project$Player$Unclaimed,
+					A2(_elm_lang$core$Array$get, index, model.boxes)));
+		});
 	var box = function (i) {
 		return A2(
 			_elm_lang$html$Html$button,
@@ -8543,7 +8545,7 @@ var _user$project$View$view = function (model) {
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html$text(
-					A2(_user$project$View$showBox, i, model)),
+					A2(showBox, i, model)),
 				_1: {ctor: '[]'}
 			});
 	};

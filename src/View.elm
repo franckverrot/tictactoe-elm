@@ -8,18 +8,16 @@ import MyEvent     exposing (..)
 import Player      exposing (..)
 import Result      exposing (..)
 
-showBox : Int -> Model -> String
-showBox index model =
-  let
-     player = get index model.boxes
-  in
-     Player.show(Maybe.withDefault Unclaimed player)
-
-
 view : Model -> Html MyEvent
 view model =
   let
+     showBox : Int -> Model -> String
+     showBox index model = get index model.boxes
+                             |> Maybe.withDefault Unclaimed
+                             |> Player.show
+
      box i = button [ onClick (Clicked i)] [ (text (showBox i model)) ]
+
      showPlayer player = text("Hey " ++ (Player.show player) ++ ", it's your turn")
 
   in
