@@ -8358,39 +8358,36 @@ var _user$project$MyEvent$Clicked = function (a) {
 
 var _user$project$EventHandlers_OnClicked$onClicked = F2(
 	function (model, index) {
-		var previousValue = A2(
-			_elm_lang$core$Maybe$withDefault,
-			_user$project$Player$Unclaimed,
-			A2(_elm_lang$core$Array$get, index, model.boxes));
-		var boxes = function () {
-			var _p0 = previousValue;
-			if (_p0.ctor === 'Unclaimed') {
-				return A3(_elm_lang$core$Array$set, index, model.currentPlayer, model.boxes);
-			} else {
-				return model.boxes;
-			}
-		}();
-		var currentPlayerShouldChange = function () {
-			var _p1 = previousValue;
-			if (_p1.ctor === 'Unclaimed') {
-				return true;
-			} else {
-				return false;
-			}
-		}();
-		return A2(
-			_elm_lang$core$Platform_Cmd_ops['!'],
-			_elm_lang$core$Native_Utils.update(
-				model,
-				{boxes: boxes}),
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$core$Task$perform,
-					A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, currentPlayerShouldChange),
-					_elm_lang$core$Time$now),
-				_1: {ctor: '[]'}
-			});
+		var leaveBoardIntact = model.boxes;
+		var markBoxForPlayer = A3(_elm_lang$core$Array$set, index, model.currentPlayer, model.boxes);
+		return function (_p0) {
+			var _p1 = _p0;
+			return A2(
+				_elm_lang$core$Platform_Cmd_ops['!'],
+				_elm_lang$core$Native_Utils.update(
+					model,
+					{boxes: _p1._0}),
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$core$Task$perform,
+						A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, _p1._1),
+						_elm_lang$core$Time$now),
+					_1: {ctor: '[]'}
+				});
+		}(
+			function (box) {
+				var _p2 = box;
+				if (_p2.ctor === 'Unclaimed') {
+					return {ctor: '_Tuple2', _0: markBoxForPlayer, _1: true};
+				} else {
+					return {ctor: '_Tuple2', _0: leaveBoardIntact, _1: false};
+				}
+			}(
+				A2(
+					_elm_lang$core$Maybe$withDefault,
+					_user$project$Player$Unclaimed,
+					A2(_elm_lang$core$Array$get, index, model.boxes))));
 	});
 
 var _user$project$Update$currentPlayerWinning = F2(
