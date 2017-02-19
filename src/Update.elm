@@ -1,4 +1,8 @@
-module Update exposing (update)
+module Update exposing ( update
+                       , changePlayer
+                       , noneUnclaimed
+                       , currentPlayerWinning
+                       )
 
 import Array                   exposing (..)
 import EventHandlers.OnClicked
@@ -12,30 +16,33 @@ changePlayer p = case p of
                    B -> A
                    _ -> A
 
-staleMate : Array Player -> Bool
-staleMate ary = (0 == length(filter (\x -> x == Unclaimed) ary))
+noneUnclaimed : Array Player -> Bool
+noneUnclaimed ary = (0 == length(filter (\x -> x == Unclaimed) ary))
 
 type alias GameStatus = Result String Player
+
+winningCombos : List (List Int)
+winningCombos =
+  [ -- rows     -- cols    -- diags
+    [0, 1, 2] , [0, 3, 6], [0, 4, 8]
+  , [3, 4, 5] , [1, 4, 7], [6, 4, 2]
+  , [6, 7, 8] , [2, 5, 8]]
 
 currentPlayerWinning : Player -> Array Player -> Bool
 currentPlayerWinning currentPlayer boxes =
   let
-      check : Player -> List Int -> Array Player -> Bool
-      check player indices ary =
+      checkPlayerPositionsInList : Player -> List Int -> Array Player -> Bool
+      checkPlayerPositionsInList player indices ary =
         fromList indices
           |> map (\index -> (get index ary |> Maybe.withDefault Unclaimed))
           |> filter ((==) player)
           |> length
           |> (==) 3
   in
-      fromList [
-        -- rows     -- cols    -- diags
-        [0, 1, 2] , [0, 3, 6], [0, 4, 8]
-      , [3, 4, 5] , [1, 4, 7], [6, 4, 2]
-      , [6, 7, 8] , [2, 5, 8]]
-        |> map (\indices -> check currentPlayer indices boxes)
-        |> filter ((==) True)
-        |> isEmpty |> not
+      winningCombos
+        |> List.map (\indices -> checkPlayerPositionsInList currentPlayer indices boxes)
+        |> List.filter ((==) True)
+        |> List.isEmpty |> not
 
 playerWon : Player -> Model -> GameStatus
 playerWon player model =
@@ -49,7 +56,7 @@ update msg model =
     Reset -> initialModel ! []
 
     CheckWinner player currentPlayerShouldChange _ ->
-      if staleMate model.boxes then
+      if noneUnclaimed model.boxes then
         { model | winner = Just Unclaimed } ! []
       else
         case currentPlayerShouldChange of
