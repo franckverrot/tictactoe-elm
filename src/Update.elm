@@ -57,13 +57,18 @@ update msg model =
 
     CheckWinner player currentPlayerShouldChange _ ->
       if noneUnclaimed model.boxes then
+        -- it's a draw
         { model | winner = Just Unclaimed } ! []
       else
         case currentPlayerShouldChange of
+          -- Legal move
           True -> case playerWon player model of
+                    -- There's a winner
                     Ok player -> { model | winner        = Just player         } ! []
+                    -- Let's switch players
                     Err _     -> { model | currentPlayer = changePlayer player } ! []
 
+          -- Illegal move, same player should play again
           False -> model ! []
 
     Clicked index -> EventHandlers.OnClicked.onClicked model index
