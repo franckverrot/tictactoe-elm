@@ -22,6 +22,7 @@ There are three events in this app:
 
 ## Setup
 
-1. `npm install elm` : to download Elm
-2. `make get-deps` : to downloads packages
-3. `make` : to compile to an HTML file
+1. `npm install elm` : downloads Elm
+2. `make get-deps` : downloads packages
+3. `make` : runs tests and compiles down to a single JavaScript file
+4. `make test` : runs tests only
