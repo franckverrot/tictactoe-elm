@@ -1,0 +1,31 @@
+#Page {
+    padding: 10% 10%;
+    margin: 0;
+    font-family: Verdana, Arial;
+}
+
+.indexHeader {
+    text-align: center;
+}
+
+.indexContainer {
+    text-align: center;
+}
+
+.indexBox {
+    display: inline-block;
+    background-color: #0074D9;
+    margin: 10px 0px 0px 2%;
+    flex-grow: 1;
+    width: 20%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 5% 0%;
+    color: #dddddd;
+}
+
+.indexFooter {
+    font-size: 25px;
+    padding: 20px;
+}
