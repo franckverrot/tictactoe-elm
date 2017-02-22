@@ -21,13 +21,17 @@ view model =
                              |> Maybe.withDefault Unclaimed
                              |> Player.show
 
-     box i = div
-               [ onClick (Clicked i), class [ Box ] ]
-               [ (text (showBox i model)) ]
+     box i             = button
+                           [ onClick (Clicked i), class [ Box ] ]
+                           [ (text (showBox i model)) ]
 
      showPlayer player = div
                            [ class [ Footer ] ]
                            [ text("Hey " ++ (Player.show player) ++ ", it's your turn") ]
+
+     showDeadEnd msg   = div [ class [ DeadEndMessage ] ]
+                           [ h2 [] [ text msg ]
+                           , button [ onClick Reset, class [ Box, ResetButton ] ] [ text "Reset" ] ]
 
      boxes = case model.winner of
                Nothing        -> div [ class [ Container ] ]
@@ -36,14 +40,11 @@ view model =
                                    , box 6 , box 7 , box 8 , br [][]
                                    , showPlayer model.currentPlayer]
 
-               Just Unclaimed -> div [ ]
-                                   [ text("Draw!!1!1!")
-                                   , button [ onClick Reset ] [ text "Reset" ] ]
+               Just Unclaimed -> showDeadEnd
+                                   <| "Draw!!1!1!"
 
-               Just winner    -> div [ ]
-                                   [ text("Player " ++ (Player.show winner) ++ " wins!")
-                                   , button [ onClick Reset ] [ text "Reset" ] ]
-
+               Just winner    -> showDeadEnd
+                                   <| "Player " ++ (Player.show winner) ++ " wins!"
   in
      div
        [ id Page ]

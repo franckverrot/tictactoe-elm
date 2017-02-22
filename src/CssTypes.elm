@@ -10,6 +10,8 @@ type Classes
   | GithubLink
   | Container
   | Footer
+  | DeadEndMessage
+  | ResetButton
 
 type Ids
   = Page

@@ -28,6 +28,12 @@ css =
     [
       textAlign center
     ]
+  , class DeadEndMessage
+    [
+      textAlign center
+    , fontSize (px 24)
+    , padding (pct 5)
+    ]
   , class Box
     [ display inlineBlock
     , backgroundColor blue
@@ -39,6 +45,15 @@ css =
     , fontWeight bold
     , padding2 (pct 5) (pct 0)
     , color silver
+    , textDecoration none
+    , borderStyle none
+    , cursor pointer
+    , outline none
+    ]
+  , class ResetButton
+    [ display inlineBlock
+    , width (pct 100)
+    , margin (pct 0)
     ]
   , class Footer
     [ fontSize (px 25)

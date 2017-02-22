@@ -16,6 +16,12 @@
     text-align: center;
 }
 
+.indexDeadEndMessage {
+    text-align: center;
+    font-size: 24px;
+    padding: 5%;
+}
+
 .indexBox {
     display: inline-block;
     background-color: #0074D9;
@@ -27,6 +33,16 @@
     font-weight: bold;
     padding: 5% 0%;
     color: #dddddd;
+    text-decoration: none;
+    border-style: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.indexResetButton {
+    display: inline-block;
+    width: 100%;
+    margin: 0%;
 }
 
 .indexFooter {

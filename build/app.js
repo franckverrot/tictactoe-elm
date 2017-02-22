@@ -8942,6 +8942,8 @@ var _rtfeldman$elm_css_helpers$Html_CssHelpers$Namespace = F4(
 	});
 
 var _user$project$CssTypes$indexNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('index');
+var _user$project$CssTypes$ResetButton = {ctor: 'ResetButton'};
+var _user$project$CssTypes$DeadEndMessage = {ctor: 'DeadEndMessage'};
 var _user$project$CssTypes$Footer = {ctor: 'Footer'};
 var _user$project$CssTypes$Container = {ctor: 'Container'};
 var _user$project$CssTypes$GithubLink = {ctor: 'GithubLink'};
@@ -9287,6 +9289,60 @@ var _user$project$View$id = _user$project$View$_p0.id;
 var _user$project$View$class = _user$project$View$_p0.$class;
 var _user$project$View$classList = _user$project$View$_p0.classList;
 var _user$project$View$view = function (model) {
+	var showDeadEnd = function (msg) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$View$class(
+					{
+						ctor: '::',
+						_0: _user$project$CssTypes$DeadEndMessage,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h2,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(msg),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$class(
+									{
+										ctor: '::',
+										_0: _user$project$CssTypes$Box,
+										_1: {
+											ctor: '::',
+											_0: _user$project$CssTypes$ResetButton,
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Reset'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	};
 	var showPlayer = function (player) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -9323,7 +9379,7 @@ var _user$project$View$view = function (model) {
 		});
 	var box = function (i) {
 		return A2(
-			_elm_lang$html$Html$div,
+			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
@@ -9425,60 +9481,16 @@ var _user$project$View$view = function (model) {
 				});
 		} else {
 			if (_p1._0.ctor === 'Unclaimed') {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Draw!!1!1!'),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Reset'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					});
+				return showDeadEnd('Draw!!1!1!');
 			} else {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'Player ',
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_user$project$Player$show(_p1._0),
-									' wins!'))),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Reset'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					});
+				return showDeadEnd(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'Player ',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_user$project$Player$show(_p1._0),
+							' wins!')));
 			}
 		}
 	}();
