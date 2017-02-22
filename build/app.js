@@ -8944,6 +8944,7 @@ var _rtfeldman$elm_css_helpers$Html_CssHelpers$Namespace = F4(
 var _user$project$CssTypes$indexNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('index');
 var _user$project$CssTypes$Footer = {ctor: 'Footer'};
 var _user$project$CssTypes$Container = {ctor: 'Container'};
+var _user$project$CssTypes$GithubLink = {ctor: 'GithubLink'};
 var _user$project$CssTypes$Header = {ctor: 'Header'};
 var _user$project$CssTypes$Box = {ctor: 'Box'};
 var _user$project$CssTypes$Page = {ctor: 'Page'};
@@ -9509,8 +9510,39 @@ var _user$project$View$view = function (model) {
 				}),
 			_1: {
 				ctor: '::',
-				_0: boxes,
-				_1: {ctor: '[]'}
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{
+						ctor: '::',
+						_0: _user$project$View$class(
+							{
+								ctor: '::',
+								_0: _user$project$CssTypes$GithubLink,
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href('https://github.com/franckverrot/tictactoe-elm'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Source code on GitHub'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: boxes,
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };

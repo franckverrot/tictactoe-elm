@@ -1,10 +1,14 @@
 #Page {
-    padding: 10% 10%;
+    padding: 4% 10%;
     margin: 0;
     font-family: Verdana, Arial;
 }
 
 .indexHeader {
+    text-align: center;
+}
+
+.indexGithubLink {
     text-align: center;
 }
 

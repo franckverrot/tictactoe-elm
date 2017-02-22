@@ -1,13 +1,14 @@
 module View exposing ( view
                      )
 
-import Array       exposing (..)
-import CssTypes    exposing (..)
-import Html        exposing (..)
-import Html.Events exposing (..)
-import Model       exposing (..)
-import MyEvent     exposing (..)
-import Player      exposing (..)
+import Array           exposing (..)
+import CssTypes        exposing (..)
+import Html            exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events     exposing (..)
+import Model           exposing (..)
+import MyEvent         exposing (..)
+import Player          exposing (..)
 
 { id, class, classList } =
   indexNamespace
@@ -47,4 +48,11 @@ view model =
      div
        [ id Page ]
        [ h1 [ class [ Header ] ] [ text "Tic Tac Toe in Elm" ]
-       , boxes ]
+       , p
+           [ class [ GithubLink ] ]
+           [ a
+               [ href "https://github.com/franckverrot/tictactoe-elm" ]
+               [ text "Source code on GitHub" ]
+           ]
+       , boxes
+       ]

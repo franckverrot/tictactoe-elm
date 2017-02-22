@@ -12,11 +12,15 @@ css =
     [
     ]
   , id Page
-    [ padding2 (pct 10) (pct 10)
+    [ padding2 (pct 4) (pct 10)
     , margin zero
     , fontFamilies  ["Verdana", "Arial"]
     ]
   , class Header
+    [
+      textAlign center
+    ]
+  , class GithubLink
     [
       textAlign center
     ]

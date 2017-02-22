@@ -7,6 +7,7 @@ import Html.CssHelpers exposing (withNamespace)
 type Classes
   = Box
   | Header
+  | GithubLink
   | Container
   | Footer
 
