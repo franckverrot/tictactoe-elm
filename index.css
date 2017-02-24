@@ -39,6 +39,18 @@
     outline: none;
 }
 
+.indexPlayerColor-A {
+    background-color: #FF4136;
+}
+
+.indexPlayerColor-B {
+    background-color: #0074D9;
+}
+
+.indexPlayerColor-Unclaimed {
+    background-color: #AAAAAA;
+}
+
 .indexResetButton {
     display: inline-block;
     width: 100%;

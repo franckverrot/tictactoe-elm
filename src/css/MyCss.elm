@@ -5,6 +5,7 @@ import Css.Colors    exposing (..)
 import Css.Elements  exposing (body, li)
 import Css.Namespace exposing (namespace)
 import CssTypes      exposing (..)
+import Player        exposing (..)
 
 css =
   (stylesheet << namespace indexNamespace.name)
@@ -49,6 +50,18 @@ css =
     , borderStyle none
     , cursor pointer
     , outline none
+    ]
+  , class (PlayerColor A)
+    [
+      backgroundColor red
+    ]
+  , class (PlayerColor B)
+    [
+      backgroundColor blue
+    ]
+  , class (PlayerColor Unclaimed)
+    [
+      backgroundColor gray
     ]
   , class ResetButton
     [ display inlineBlock

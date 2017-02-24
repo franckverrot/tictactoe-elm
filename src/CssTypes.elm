@@ -3,6 +3,7 @@ module CssTypes exposing ( Classes(..)
                          , indexNamespace)
 
 import Html.CssHelpers exposing (withNamespace)
+import Player          exposing (..)
 
 type Classes
   = Box
@@ -12,6 +13,7 @@ type Classes
   | Footer
   | DeadEndMessage
   | ResetButton
+  | PlayerColor Player
 
 type Ids
   = Page

@@ -16,14 +16,12 @@ import Player          exposing (..)
 view : Model -> Html MyEvent
 view model =
   let
-     showBox : Int -> Model -> String
-     showBox index model = get index model.boxes
-                             |> Maybe.withDefault Unclaimed
-                             |> Player.show
-
-     box i             = button
-                           [ onClick (Clicked i), class [ Box ] ]
-                           [ (text (showBox i model)) ]
+     box index = get index model.boxes
+                   |> Maybe.withDefault Unclaimed
+                   |> \currentBox ->
+                        button
+                          [ onClick (Clicked index), class [ Box, (PlayerColor currentBox) ] ]
+                          [ (text <| Player.show currentBox) ]
 
      showPlayer player = div
                            [ class [ Footer ] ]

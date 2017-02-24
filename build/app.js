@@ -8941,16 +8941,6 @@ var _rtfeldman$elm_css_helpers$Html_CssHelpers$Namespace = F4(
 		return {$class: a, classList: b, id: c, name: d};
 	});
 
-var _user$project$CssTypes$indexNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('index');
-var _user$project$CssTypes$ResetButton = {ctor: 'ResetButton'};
-var _user$project$CssTypes$DeadEndMessage = {ctor: 'DeadEndMessage'};
-var _user$project$CssTypes$Footer = {ctor: 'Footer'};
-var _user$project$CssTypes$Container = {ctor: 'Container'};
-var _user$project$CssTypes$GithubLink = {ctor: 'GithubLink'};
-var _user$project$CssTypes$Header = {ctor: 'Header'};
-var _user$project$CssTypes$Box = {ctor: 'Box'};
-var _user$project$CssTypes$Page = {ctor: 'Page'};
-
 var _user$project$Player$show = function (player) {
 	var _p0 = player;
 	switch (_p0.ctor) {
@@ -8965,6 +8955,19 @@ var _user$project$Player$show = function (player) {
 var _user$project$Player$Unclaimed = {ctor: 'Unclaimed'};
 var _user$project$Player$B = {ctor: 'B'};
 var _user$project$Player$A = {ctor: 'A'};
+
+var _user$project$CssTypes$indexNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('index');
+var _user$project$CssTypes$PlayerColor = function (a) {
+	return {ctor: 'PlayerColor', _0: a};
+};
+var _user$project$CssTypes$ResetButton = {ctor: 'ResetButton'};
+var _user$project$CssTypes$DeadEndMessage = {ctor: 'DeadEndMessage'};
+var _user$project$CssTypes$Footer = {ctor: 'Footer'};
+var _user$project$CssTypes$Container = {ctor: 'Container'};
+var _user$project$CssTypes$GithubLink = {ctor: 'GithubLink'};
+var _user$project$CssTypes$Header = {ctor: 'Header'};
+var _user$project$CssTypes$Box = {ctor: 'Box'};
+var _user$project$CssTypes$Page = {ctor: 'Page'};
 
 var _user$project$Model$initialModel = {
 	boxes: A2(_elm_lang$core$Array$repeat, 9, _user$project$Player$Unclaimed),
@@ -9382,38 +9385,40 @@ var _user$project$View$view = function (model) {
 				_1: {ctor: '[]'}
 			});
 	};
-	var showBox = F2(
-		function (index, model) {
-			return _user$project$Player$show(
-				A2(
-					_elm_lang$core$Maybe$withDefault,
-					_user$project$Player$Unclaimed,
-					A2(_elm_lang$core$Array$get, index, model.boxes)));
-		});
-	var box = function (i) {
-		return A2(
-			_elm_lang$html$Html$button,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(
-					_user$project$MyEvent$Clicked(i)),
-				_1: {
+	var box = function (index) {
+		return function (currentBox) {
+			return A2(
+				_elm_lang$html$Html$button,
+				{
 					ctor: '::',
-					_0: _user$project$View$class(
-						{
-							ctor: '::',
-							_0: _user$project$CssTypes$Box,
-							_1: {ctor: '[]'}
-						}),
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$MyEvent$Clicked(index)),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$class(
+							{
+								ctor: '::',
+								_0: _user$project$CssTypes$Box,
+								_1: {
+									ctor: '::',
+									_0: _user$project$CssTypes$PlayerColor(currentBox),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_user$project$Player$show(currentBox)),
 					_1: {ctor: '[]'}
-				}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(showBox, i, model)),
-				_1: {ctor: '[]'}
-			});
+				});
+		}(
+			A2(
+				_elm_lang$core$Maybe$withDefault,
+				_user$project$Player$Unclaimed,
+				A2(_elm_lang$core$Array$get, index, model.boxes)));
 	};
 	var boxes = function () {
 		var _p1 = model.winner;
