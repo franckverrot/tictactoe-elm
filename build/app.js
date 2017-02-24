@@ -9240,27 +9240,39 @@ var _user$project$Update$update = F2(
 					_user$project$Model$initialModel,
 					{ctor: '[]'});
 			case 'CheckWinner':
-				var _p5 = _p2._0;
+				var _p6 = _p2._0;
 				if (_user$project$GameLogic$noneUnclaimed(model.boxes)) {
-					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						_elm_lang$core$Native_Utils.update(
-							model,
-							{
-								winner: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
-							}),
-						{ctor: '[]'});
+					var _p3 = A2(_user$project$Update$playerWon, _p6, model);
+					if (_p3.ctor === 'Ok') {
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							_elm_lang$core$Native_Utils.update(
+								model,
+								{
+									winner: _elm_lang$core$Maybe$Just(_p3._0)
+								}),
+							{ctor: '[]'});
+					} else {
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							_elm_lang$core$Native_Utils.update(
+								model,
+								{
+									winner: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
+								}),
+							{ctor: '[]'});
+					}
 				} else {
-					var _p3 = _p2._1;
-					if (_p3 === true) {
-						var _p4 = A2(_user$project$Update$playerWon, _p5, model);
-						if (_p4.ctor === 'Ok') {
+					var _p4 = _p2._1;
+					if (_p4 === true) {
+						var _p5 = A2(_user$project$Update$playerWon, _p6, model);
+						if (_p5.ctor === 'Ok') {
 							return A2(
 								_elm_lang$core$Platform_Cmd_ops['!'],
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
-										winner: _elm_lang$core$Maybe$Just(_p4._0)
+										winner: _elm_lang$core$Maybe$Just(_p5._0)
 									}),
 								{ctor: '[]'});
 						} else {
@@ -9269,7 +9281,7 @@ var _user$project$Update$update = F2(
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
-										currentPlayer: _user$project$Update$changePlayer(_p5)
+										currentPlayer: _user$project$Update$changePlayer(_p6)
 									}),
 								{ctor: '[]'});
 						}
