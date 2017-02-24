@@ -8985,6 +8985,18 @@ var _user$project$MyEvent$Clicked = function (a) {
 	return {ctor: 'Clicked', _0: a};
 };
 
+var _user$project$GameLogic$noneUnclaimed = function (ary) {
+	return _elm_lang$core$Native_Utils.eq(
+		0,
+		_elm_lang$core$Array$length(
+			A2(
+				_elm_lang$core$Array$filter,
+				function (x) {
+					return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
+				},
+				ary)));
+};
+
 var _user$project$EventHandlers_OnClicked$onClicked = F2(
 	function (model, index) {
 		var leaveBoardIntact = function (player) {
@@ -9207,17 +9219,6 @@ var _user$project$Update$playerWon = F2(
 			return _elm_lang$core$Result$Err('Not there yet!');
 		}
 	});
-var _user$project$Update$noneUnclaimed = function (ary) {
-	return _elm_lang$core$Native_Utils.eq(
-		0,
-		_elm_lang$core$Array$length(
-			A2(
-				_elm_lang$core$Array$filter,
-				function (x) {
-					return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
-				},
-				ary)));
-};
 var _user$project$Update$changePlayer = function (p) {
 	var _p1 = p;
 	switch (_p1.ctor) {
@@ -9240,7 +9241,7 @@ var _user$project$Update$update = F2(
 					{ctor: '[]'});
 			case 'CheckWinner':
 				var _p5 = _p2._0;
-				if (_user$project$Update$noneUnclaimed(model.boxes)) {
+				if (_user$project$GameLogic$noneUnclaimed(model.boxes)) {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(

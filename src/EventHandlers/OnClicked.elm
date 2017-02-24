@@ -4,13 +4,14 @@ module EventHandlers.OnClicked exposing ( onClicked )
 
 @docs onClicked
 -}
-import Array   exposing (..)
-import Maybe   exposing (..)
-import Model   exposing (..)
-import MyEvent exposing (..)
-import Player  exposing (..)
-import Task    exposing (..)
-import Time    exposing (..)
+import Array     exposing (..)
+import Maybe     exposing (..)
+import Model     exposing (..)
+import MyEvent   exposing (..)
+import Player    exposing (..)
+import Task      exposing (..)
+import Time      exposing (..)
+import GameLogic exposing (noneUnclaimed)
 
 {-| onClicked -}
 onClicked : Model -> Int -> (Model, Cmd MyEvent)

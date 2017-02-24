@@ -1,11 +1,11 @@
 module Update exposing ( update
                        , changePlayer
-                       , noneUnclaimed
                        , currentPlayerWinning
                        )
 
 import Array                   exposing (..)
 import EventHandlers.OnClicked
+import GameLogic               exposing (noneUnclaimed)
 import Model                   exposing (..)
 import MyEvent                 exposing (..)
 import Player                  exposing (..)
@@ -16,8 +16,6 @@ changePlayer p = case p of
                    B -> A
                    _ -> A
 
-noneUnclaimed : Array Player -> Bool
-noneUnclaimed ary = (0 == length(filter (\x -> x == Unclaimed) ary))
 
 type alias GameStatus = Result String Player
 
@@ -57,8 +55,8 @@ update msg model =
 
     CheckWinner player currentPlayerShouldChange _ ->
       if noneUnclaimed model.boxes then
-        -- it's a draw
         { model | winner = Just Unclaimed } ! []
+
       else
         case currentPlayerShouldChange of
           -- Legal move

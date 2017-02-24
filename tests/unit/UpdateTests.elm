@@ -3,26 +3,55 @@ module Unit.UpdateTests exposing (updateTests)
 import Test   exposing (..)
 import Expect
 import Array
-import Player exposing (Player (A, B, Unclaimed))
-import Update exposing (changePlayer, noneUnclaimed, currentPlayerWinning)
+import Model   exposing (initialModel)
+import MyEvent exposing (MyEvent(Clicked, CheckWinner, Reset))
+import Player  exposing (Player (A, B, Unclaimed))
+import Update  exposing (changePlayer, currentPlayerWinning, update)
+import Time    exposing (second)
 
 updateTests : List Test
-updateTests = [ describe "Update.changePlayer"
-                  [ test "switches turn from A to B" <|
+updateTests = [ describe "Update.update"
+                  [ test "Handles Reset" <|
                       \() ->
-                          Expect.equal B <| Update.changePlayer A
-                  , test "switches turn from B to A" <|
+                          Expect.equal (initialModel ! [])
+                            <| update Reset initialModel
+                  , test "Handles CheckWinner -- none unclaimed" <|
                       \() ->
-                          Expect.equal A <| Update.changePlayer B
-                  ]
-              , describe "Update.noneUnclaimed"
-                  [ test "returns True if none of the boxes are unclaimed" <|
+                        let
+                            message       = (CheckWinner A False Time.second)
+                            previousModel = { initialModel
+                                            | boxes = (Array.fromList [A, A, A, A, B, B, B, A, B])
+                                            }
+                            (newModel, _) = update message previousModel
+                        in
+                            Expect.equal (Just Unclaimed) (newModel.winner)
+                  , test "Handles CheckWinner -- legal move with winner" <|
                       \() ->
-                          Expect.equal True
-                            <| noneUnclaimed <| Array.fromList <| [A, B, A]
-                  , test "returns False if at least one box is unclaimed" <|
+                        let
+                            message       = (CheckWinner A True Time.second)
+                            previousModel = { initialModel
+                                            | boxes = (Array.fromList [A, A, A, B, B, Unclaimed, Unclaimed, Unclaimed, Unclaimed])
+                                            }
+                            (newModel, _) = update message previousModel
+                        in
+                            Expect.equal (Just A) newModel.winner
+                  , test "Handles CheckWinner -- legal move with no winner" <|
                       \() ->
-                          Expect.equal False
-                            <| noneUnclaimed <| Array.fromList <| [A, Unclaimed, A]
+                        let
+                            message       = (CheckWinner A True Time.second)
+                            previousModel = { initialModel
+                                            | boxes = (Array.fromList [A, A, Unclaimed, B, B, Unclaimed, Unclaimed, Unclaimed, Unclaimed])
+                                            }
+                            (newModel, _) = update message previousModel
+                        in
+                            Expect.equal Nothing newModel.winner
+                  , test "Handles CheckWinner -- illegal move" <|
+                      \() ->
+                        let
+                            msg = (CheckWinner A False Time.second)
+                            model = initialModel
+                        in
+                            Expect.equal (initialModel ! [])
+                              <| update msg model
                   ]
               ]
