@@ -5,9 +5,10 @@ module Update exposing ( update
 
 import Array                   exposing (..)
 import EventHandlers.OnClicked
+import GameEvent               exposing (..)
 import GameLogic               exposing (noneUnclaimed)
 import Model                   exposing (..)
-import GameEvent                 exposing (..)
+import Models.Box              exposing (..)
 import Player                  exposing (..)
 
 changePlayer : Player -> Player
@@ -15,7 +16,6 @@ changePlayer p = case p of
                    A -> B
                    B -> A
                    _ -> A
-
 
 type alias GameStatus = Result String Player
 
@@ -26,14 +26,16 @@ winningCombos =
   , [3, 4, 5] , [1, 4, 7], [6, 4, 2]
   , [6, 7, 8] , [2, 5, 8]]
 
-currentPlayerWinning : Player -> Array Player -> Bool
+currentPlayerWinning : Player -> Array Box -> Bool
 currentPlayerWinning currentPlayer boxes =
   let
-      checkPlayerPositionsInList : Player -> List Int -> Array Player -> Bool
+      checkPlayerPositionsInList : Player -> List Int -> Array Box -> Bool
       checkPlayerPositionsInList player indices ary =
         fromList indices
-          |> map (\index -> (get index ary |> Maybe.withDefault Unclaimed))
-          |> filter ((==) player)
+          |> map (\index -> (get index ary |> Maybe.withDefault (Box Unclaimed)))
+          |> filter
+               (\x -> case x of
+                        (Box boxPlayer) -> boxPlayer == player)
           |> length
           |> (==) 3
   in
@@ -73,4 +75,4 @@ update msg model =
           -- Illegal move, same player should play again
           False -> model ! []
 
-    Clicked index -> EventHandlers.OnClicked.onClicked model index
+    Clicked (Box player) index -> EventHandlers.OnClicked.onClicked model index

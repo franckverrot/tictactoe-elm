@@ -7,42 +7,48 @@ import Html            exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events     exposing (..)
 import Model           exposing (..)
+import Models.Box as M exposing (..)
 import GameEvent       exposing (..)
 import Player          exposing (..)
 
 { id, class, classList } =
   indexNamespace
 
+boxCssClass : Box -> Classes
+boxCssClass (M.Box player) = PlayerColor player
+
 view : Model -> Html GameEvent
 view model =
   let
-     box index = get index model.boxes
-                   |> Maybe.withDefault Unclaimed
-                   |> \currentBox ->
-                        button
-                          [ onClick (Clicked index), class [ Box, (PlayerColor currentBox) ] ]
-                          [ (text <| Player.show currentBox) ]
+     boxButton index = get index model.boxes
+                         |> Maybe.withDefault (M.Box Unclaimed)
+                         |> \currentBox ->
+                              button
+                                [ onClick (Clicked currentBox index)
+                                , class [ CssTypes.Box, (boxCssClass currentBox) ]
+                                ]
+                                [ (text <| showBox currentBox) ]
 
-     showPlayer player = div
+     showTurn player = div
                            [ class [ Footer ] ]
-                           [ text("Hey " ++ (Player.show player) ++ ", it's your turn") ]
+                           [ text("Hey " ++ (showPlayer player) ++ ", it's your turn") ]
 
      showDeadEnd msg   = div [ class [ DeadEndMessage ] ]
                            [ h2 [] [ text msg ]
-                           , button [ onClick Reset, class [ Box, ResetButton ] ] [ text "Reset" ] ]
+                           , button [ onClick Reset, class [ CssTypes.Box, ResetButton ] ] [ text "Reset" ] ]
 
      boxes = case model.winner of
                Nothing        -> div [ class [ Container ] ]
-                                   [ box 0 , box 1 , box 2 , br [][]
-                                   , box 3 , box 4 , box 5 , br [][]
-                                   , box 6 , box 7 , box 8 , br [][]
-                                   , showPlayer model.currentPlayer]
+                                   [ boxButton 0, boxButton 1, boxButton 2, br [][]
+                                   , boxButton 3, boxButton 4, boxButton 5, br [][]
+                                   , boxButton 6, boxButton 7, boxButton 8, br [][]
+                                   , showTurn model.currentPlayer]
 
                Just Unclaimed -> showDeadEnd
                                    <| "Draw!!1!1!"
 
                Just winner    -> showDeadEnd
-                                   <| "Player " ++ (Player.show winner) ++ " wins!"
+                                   <| "Player " ++ (showPlayer winner) ++ " wins!"
   in
      div
        [ id Page ]

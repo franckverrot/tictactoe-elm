@@ -3,11 +3,14 @@ module Unit.UpdateTests exposing (updateTests)
 import Test   exposing (..)
 import Expect
 import Array
-import Model   exposing (initialModel)
-import GameEvent exposing (GameEvent(Clicked, CheckWinner, Reset))
-import Player    exposing (Player (A, B, Unclaimed))
-import Update    exposing (changePlayer, currentPlayerWinning, update)
-import Time      exposing (second)
+import Model      exposing (initialModel)
+import Models.Box exposing (..)
+import GameEvent  exposing (GameEvent(Clicked, CheckWinner, Reset))
+import Player     exposing (Player (A, B, Unclaimed))
+import Update     exposing (changePlayer, currentPlayerWinning, update)
+import Time       exposing (second)
+
+makeBoard ary = Array.map (\player -> (Box player)) ary
 
 updateTests : List Test
 updateTests = [ describe "Update.update"
@@ -21,7 +24,7 @@ updateTests = [ describe "Update.update"
                         let
                             message       = (CheckWinner A False Time.second)
                             previousModel = { initialModel
-                                            | boxes = (Array.fromList [ A, A, A
+                                            | boxes = makeBoard (Array.fromList [ A, A, A
                                                                       , A, B, B
                                                                       , B, B, A ])
                                             }
@@ -34,7 +37,7 @@ updateTests = [ describe "Update.update"
                         let
                             message       = (CheckWinner A False Time.second)
                             previousModel = { initialModel
-                                            | boxes = (Array.fromList [ A, A, B
+                                            | boxes = makeBoard (Array.fromList [ A, A, B
                                                                       , B, B, A
                                                                       , A, B, A ])
                                             }
@@ -47,7 +50,7 @@ updateTests = [ describe "Update.update"
                         let
                             message       = (CheckWinner A True Time.second)
                             previousModel = { initialModel
-                                            | boxes = (Array.fromList [ A, A, A
+                                            | boxes = makeBoard (Array.fromList [ A, A, A
                                                                       , B, B, Unclaimed
                                                                       , Unclaimed, Unclaimed, Unclaimed])
                                             }
@@ -60,7 +63,7 @@ updateTests = [ describe "Update.update"
                         let
                             message       = (CheckWinner A True Time.second)
                             previousModel = { initialModel
-                                            | boxes = (Array.fromList [ A, A, Unclaimed
+                                            | boxes = makeBoard (Array.fromList [ A, A, Unclaimed
                                                                       , B, B, Unclaimed
                                                                       , Unclaimed, Unclaimed, Unclaimed])
                                             }
