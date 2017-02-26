@@ -41,13 +41,19 @@
 
 .indexPlayerColor-A {
     background-color: #FF4136;
+    cursor: not-allowed;
 }
 
 .indexPlayerColor-B {
     background-color: #0074D9;
+    cursor: not-allowed;
 }
 
 .indexPlayerColor-Unclaimed {
+    background-color: #dddddd;
+}
+
+.indexPlayerColor-Unclaimed:hover {
     background-color: #AAAAAA;
 }
 

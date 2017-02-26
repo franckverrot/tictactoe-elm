@@ -54,14 +54,19 @@ css =
   , class (PlayerColor A)
     [
       backgroundColor red
+    , cursor notAllowed
     ]
   , class (PlayerColor B)
     [
       backgroundColor blue
+    , cursor notAllowed
     ]
   , class (PlayerColor Unclaimed)
     [
-      backgroundColor gray
+      backgroundColor silver
+      , hover [
+          backgroundColor gray
+        ]
     ]
   , class ResetButton
     [ display inlineBlock

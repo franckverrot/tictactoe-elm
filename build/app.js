@@ -9427,7 +9427,7 @@ var _user$project$View$view = function (model) {
 			};
 		}
 	};
-	var boxButton = function (index) {
+	var boxHtml = function (index) {
 		return function (_p2) {
 			var _p3 = _p2;
 			var _p4 = _p3._0;
@@ -9476,13 +9476,13 @@ var _user$project$View$view = function (model) {
 				},
 				{
 					ctor: '::',
-					_0: boxButton(0),
+					_0: boxHtml(0),
 					_1: {
 						ctor: '::',
-						_0: boxButton(1),
+						_0: boxHtml(1),
 						_1: {
 							ctor: '::',
-							_0: boxButton(2),
+							_0: boxHtml(2),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -9491,13 +9491,13 @@ var _user$project$View$view = function (model) {
 									{ctor: '[]'}),
 								_1: {
 									ctor: '::',
-									_0: boxButton(3),
+									_0: boxHtml(3),
 									_1: {
 										ctor: '::',
-										_0: boxButton(4),
+										_0: boxHtml(4),
 										_1: {
 											ctor: '::',
-											_0: boxButton(5),
+											_0: boxHtml(5),
 											_1: {
 												ctor: '::',
 												_0: A2(
@@ -9506,13 +9506,13 @@ var _user$project$View$view = function (model) {
 													{ctor: '[]'}),
 												_1: {
 													ctor: '::',
-													_0: boxButton(6),
+													_0: boxHtml(6),
 													_1: {
 														ctor: '::',
-														_0: boxButton(7),
+														_0: boxHtml(7),
 														_1: {
 															ctor: '::',
-															_0: boxButton(8),
+															_0: boxHtml(8),
 															_1: {
 																ctor: '::',
 																_0: A2(
