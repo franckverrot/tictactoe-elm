@@ -5,7 +5,7 @@ import Expect
 import Array
 import Model      exposing (initialModel)
 import Models.Box exposing (..)
-import GameEvent  exposing (GameEvent(Clicked, CheckWinner, Reset))
+import GameEvent  exposing (GameEvent(..))
 import Player     exposing (Player (A, B, Unclaimed))
 import Update     exposing (changePlayer, currentPlayerWinning, update)
 import Time       exposing (second)

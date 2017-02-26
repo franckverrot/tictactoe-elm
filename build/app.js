@@ -8997,9 +8997,9 @@ var _user$project$GameEvent$CheckWinner = F3(
 	function (a, b, c) {
 		return {ctor: 'CheckWinner', _0: a, _1: b, _2: c};
 	});
-var _user$project$GameEvent$Clicked = F2(
+var _user$project$GameEvent$BoxClicked = F2(
 	function (a, b) {
-		return {ctor: 'Clicked', _0: a, _1: b};
+		return {ctor: 'BoxClicked', _0: a, _1: b};
 	});
 
 var _user$project$EventHandlers_OnClicked$onClicked = F2(
@@ -9418,7 +9418,7 @@ var _user$project$View$view = function (model) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						A2(_user$project$GameEvent$Clicked, currentBox, index)),
+						A2(_user$project$GameEvent$BoxClicked, currentBox, index)),
 					_1: {
 						ctor: '::',
 						_0: _user$project$View$class(

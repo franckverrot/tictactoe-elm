@@ -24,7 +24,7 @@ view model =
                          |> Maybe.withDefault (M.Box Unclaimed)
                          |> \currentBox ->
                               button
-                                [ onClick (Clicked currentBox index)
+                                [ onClick (BoxClicked currentBox index)
                                 , class [ CssTypes.Box, (boxCssClass currentBox) ]
                                 ]
                                 [ (text <| showBox currentBox) ]

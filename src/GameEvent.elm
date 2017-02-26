@@ -1,9 +1,9 @@
-module GameEvent exposing ( GameEvent(Clicked, CheckWinner, Reset)
+module GameEvent exposing ( GameEvent(BoxClicked, CheckWinner, Reset)
                           )
 import Player     exposing (..)
 import Time       exposing (..)
 import Models.Box exposing (..)
 
-type GameEvent = Clicked Box Int
+type GameEvent = BoxClicked Box Int
                | CheckWinner Player Bool Time
                | Reset

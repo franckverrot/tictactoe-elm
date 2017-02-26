@@ -75,4 +75,4 @@ update msg model =
           -- Illegal move, same player should play again
           False -> model ! []
 
-    Clicked (Box player) index -> EventHandlers.OnClicked.onClicked model index
+    BoxClicked (Box player) index -> EventHandlers.OnClicked.onClicked model index
