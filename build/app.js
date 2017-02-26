@@ -9310,14 +9310,10 @@ var _user$project$Update$update = F2(
 		}
 	});
 
-var _user$project$View$boxCssClass = function (_p0) {
-	var _p1 = _p0;
-	return _user$project$CssTypes$PlayerColor(_p1._0);
-};
-var _user$project$View$_p2 = _user$project$CssTypes$indexNamespace;
-var _user$project$View$id = _user$project$View$_p2.id;
-var _user$project$View$class = _user$project$View$_p2.$class;
-var _user$project$View$classList = _user$project$View$_p2.classList;
+var _user$project$View$_p0 = _user$project$CssTypes$indexNamespace;
+var _user$project$View$id = _user$project$View$_p0.id;
+var _user$project$View$class = _user$project$View$_p0.$class;
+var _user$project$View$classList = _user$project$View$_p0.classList;
 var _user$project$View$view = function (model) {
 	var showDeadEnd = function (msg) {
 		return A2(
@@ -9399,15 +9395,47 @@ var _user$project$View$view = function (model) {
 				_1: {ctor: '[]'}
 			});
 	};
+	var boxAttributes = function (index) {
+		var _p1 = A2(_elm_lang$core$Array$get, index, model.boxes);
+		if (_p1.ctor === 'Just') {
+			if (_p1._0._0.ctor === 'Unclaimed') {
+				return {
+					ctor: '_Tuple2',
+					_0: _user$project$Player$Unclaimed,
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							A2(
+								_user$project$GameEvent$BoxClicked,
+								_user$project$Models_Box$Box(_user$project$Player$Unclaimed),
+								index)),
+						_1: {ctor: '[]'}
+					}
+				};
+			} else {
+				return {
+					ctor: '_Tuple2',
+					_0: _p1._0._0,
+					_1: {ctor: '[]'}
+				};
+			}
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _user$project$Player$Unclaimed,
+				_1: {ctor: '[]'}
+			};
+		}
+	};
 	var boxButton = function (index) {
-		return function (currentBox) {
+		return function (_p2) {
+			var _p3 = _p2;
+			var _p4 = _p3._0;
 			return A2(
 				_elm_lang$html$Html$button,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(
-						A2(_user$project$GameEvent$BoxClicked, currentBox, index)),
-					_1: {
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					{
 						ctor: '::',
 						_0: _user$project$View$class(
 							{
@@ -9415,28 +9443,25 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$CssTypes$Box,
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$boxCssClass(currentBox),
+									_0: _user$project$CssTypes$PlayerColor(_p4),
 									_1: {ctor: '[]'}
 								}
 							}),
 						_1: {ctor: '[]'}
-					}
-				},
+					},
+					_p3._1),
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						_user$project$Models_Box$showBox(currentBox)),
+						_user$project$Player$showPlayer(_p4)),
 					_1: {ctor: '[]'}
 				});
 		}(
-			A2(
-				_elm_lang$core$Maybe$withDefault,
-				_user$project$Models_Box$Box(_user$project$Player$Unclaimed),
-				A2(_elm_lang$core$Array$get, index, model.boxes)));
+			boxAttributes(index));
 	};
 	var boxes = function () {
-		var _p3 = model.winner;
-		if (_p3.ctor === 'Nothing') {
+		var _p5 = model.winner;
+		if (_p5.ctor === 'Nothing') {
 			return A2(
 				_elm_lang$html$Html$div,
 				{
@@ -9512,7 +9537,7 @@ var _user$project$View$view = function (model) {
 					}
 				});
 		} else {
-			if (_p3._0.ctor === 'Unclaimed') {
+			if (_p5._0.ctor === 'Unclaimed') {
 				return showDeadEnd('Draw!!1!1!');
 			} else {
 				return showDeadEnd(
@@ -9521,7 +9546,7 @@ var _user$project$View$view = function (model) {
 						'Player ',
 						A2(
 							_elm_lang$core$Basics_ops['++'],
-							_user$project$Player$showPlayer(_p3._0),
+							_user$project$Player$showPlayer(_p5._0),
 							' wins!')));
 			}
 		}

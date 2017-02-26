@@ -14,20 +14,21 @@ import Player          exposing (..)
 { id, class, classList } =
   indexNamespace
 
-boxCssClass : Box -> Classes
-boxCssClass (M.Box player) = PlayerColor player
-
 view : Model -> Html GameEvent
 view model =
   let
-     boxButton index = get index model.boxes
-                         |> Maybe.withDefault (M.Box Unclaimed)
-                         |> \currentBox ->
-                              button
-                                [ onClick (BoxClicked currentBox index)
-                                , class [ CssTypes.Box, (boxCssClass currentBox) ]
-                                ]
-                                [ (text <| showBox currentBox) ]
+     boxAttributes : Int -> (Player, List (Attribute GameEvent))
+     boxAttributes index = case get index model.boxes of
+                             Just (M.Box Unclaimed) -> (Unclaimed, [ onClick (BoxClicked (M.Box Unclaimed) index) ])
+                             Just (M.Box a)         -> (a, [])
+                             Nothing                -> (Unclaimed, [])
+
+     boxHtml : Int -> Html GameEvent
+     boxHtml index = boxAttributes index
+                       |> \(player, attributes) ->
+                             button
+                               ([ class [ CssTypes.Box, (PlayerColor player) ] ] ++ attributes)
+                               [ text <| showPlayer player ]
 
      showTurn player = div
                            [ class [ Footer ] ]
@@ -39,9 +40,9 @@ view model =
 
      boxes = case model.winner of
                Nothing        -> div [ class [ Container ] ]
-                                   [ boxButton 0, boxButton 1, boxButton 2, br [][]
-                                   , boxButton 3, boxButton 4, boxButton 5, br [][]
-                                   , boxButton 6, boxButton 7, boxButton 8, br [][]
+                                   [ boxHtml 0, boxHtml 1, boxHtml 2, br [][]
+                                   , boxHtml 3, boxHtml 4, boxHtml 5, br [][]
+                                   , boxHtml 6, boxHtml 7, boxHtml 8, br [][]
                                    , showTurn model.currentPlayer]
 
                Just Unclaimed -> showDeadEnd
