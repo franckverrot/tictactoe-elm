@@ -6,7 +6,7 @@ module Update exposing ( update
 import Array                   exposing (..)
 import EventHandlers.OnClicked
 import GameEvent               exposing (..)
-import GameLogic               exposing (noneUnclaimed)
+import GameLogic               exposing (..)
 import Model                   exposing (..)
 import Models.Box              exposing (..)
 import Player                  exposing (..)
@@ -17,6 +17,16 @@ changePlayer p = case p of
                    B -> A
                    _ -> A
 
+{-| This data structure represents the list of combinations
+that lead to a win, given that the board looks like:
+
+----------------------------
+-----| Col 1 | Col 2 | Col 3|
+Row 1|    0  |    1  |    2 |
+Row 2|    3  |    4  |    5 |
+Row 3|    6  |    7  |    8 |
+----------------------------
+-}
 winningCombos : List (List Int)
 winningCombos =
   [ -- rows     -- cols    -- diags
@@ -49,30 +59,23 @@ update msg model =
 
     CheckWinner player currentPlayerShouldChange _ ->
       let
+          moreTurns       = areMoreTurnsInGame model.boxes
+          moveWasValid    = currentPlayerShouldChange
+          playerIsWinning = currentPlayerWinning player model.boxes
           (nextPlayer, winner) =
-            if noneUnclaimed model.boxes then
-              if currentPlayerWinning player model.boxes then
-                -- There's a winner
-                (player, Just player)
-              else
-                -- it's a draw
-                (Unclaimed, Just Unclaimed)
+            case (moreTurns, moveWasValid, playerIsWinning) of
 
-            else
-              case currentPlayerShouldChange of
-                -- Legal move
-                True ->
-                  if currentPlayerWinning player model.boxes then
-                    -- There's a winner
-                    (player, Just player)
-                  else
-                    -- Let's switch players
-                    (changePlayer player, Nothing)
+              -- Illegal move, same player should play again
+              ( True, False,     _) -> (player, Nothing)
 
-                -- Illegal move, same player should play again
-                False ->
-                  (player, Nothing)
+               -- Let's switch players
+              ( True,  True, False) -> (changePlayer player, Nothing)
 
+              -- There's a winner
+              (    _,     _,  True) -> (player, Just player)
+
+              -- It's a draw
+              (    _,     _, False) -> (Unclaimed, Just Unclaimed)
       in
           { model
           | winner        = winner

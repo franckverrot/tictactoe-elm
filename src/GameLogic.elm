@@ -1,14 +1,14 @@
-module GameLogic exposing (noneUnclaimed)
+module GameLogic exposing (areMoreTurnsInGame)
 
 import Array      exposing (..)
 import Player     exposing (..)
 import Models.Box exposing (..)
 
-noneUnclaimed : Array Box -> Bool
-noneUnclaimed ary =
+areMoreTurnsInGame : Array Box -> Bool
+areMoreTurnsInGame ary =
   ary
     |> filter
          (\x -> case x of
            (Box player) -> player == Unclaimed)
     |> length
-    |> ((==) 0)
+    |> (flip (>) 0)

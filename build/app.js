@@ -9048,11 +9048,12 @@ var _user$project$EventHandlers_OnClicked$onClicked = F2(
 					A2(_elm_lang$core$Array$get, index, model.boxes))));
 	});
 
-var _user$project$GameLogic$noneUnclaimed = function (ary) {
-	return A2(
+var _user$project$GameLogic$areMoreTurnsInGame = function (ary) {
+	return A3(
+		_elm_lang$core$Basics$flip,
 		F2(
 			function (x, y) {
-				return _elm_lang$core$Native_Utils.eq(x, y);
+				return _elm_lang$core$Native_Utils.cmp(x, y) > 0;
 			}),
 		0,
 		_elm_lang$core$Array$length(
@@ -9235,18 +9236,9 @@ var _user$project$Update$currentPlayerWinning = F2(
 					},
 					_user$project$Update$winningCombos)));
 	});
-var _user$project$Update$playerWon = F2(
-	function (player, model) {
-		var _p1 = A2(_user$project$Update$currentPlayerWinning, player, model.boxes);
-		if (_p1 === true) {
-			return _elm_lang$core$Result$Ok(player);
-		} else {
-			return _elm_lang$core$Result$Err('Not there yet!');
-		}
-	});
 var _user$project$Update$changePlayer = function (p) {
-	var _p2 = p;
-	switch (_p2.ctor) {
+	var _p1 = p;
+	switch (_p1.ctor) {
 		case 'A':
 			return _user$project$Player$B;
 		case 'B':
@@ -9257,45 +9249,56 @@ var _user$project$Update$changePlayer = function (p) {
 };
 var _user$project$Update$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
 			case 'Reset':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_user$project$Model$initialModel,
 					{ctor: '[]'});
 			case 'CheckWinner':
-				var _p6 = _p3._0;
-				var _p4 = function () {
-					if (_user$project$GameLogic$noneUnclaimed(model.boxes)) {
-						return A2(_user$project$Update$currentPlayerWinning, _p6, model.boxes) ? {
-							ctor: '_Tuple2',
-							_0: _p6,
-							_1: _elm_lang$core$Maybe$Just(_p6)
-						} : {
-							ctor: '_Tuple2',
-							_0: _user$project$Player$Unclaimed,
-							_1: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
-						};
-					} else {
-						var _p5 = _p3._1;
-						if (_p5 === true) {
-							return A2(_user$project$Update$currentPlayerWinning, _p6, model.boxes) ? {
-								ctor: '_Tuple2',
-								_0: _p6,
-								_1: _elm_lang$core$Maybe$Just(_p6)
-							} : {
-								ctor: '_Tuple2',
-								_0: _user$project$Update$changePlayer(_p6),
-								_1: _elm_lang$core$Maybe$Nothing
-							};
+				var _p5 = _p2._0;
+				var playerIsWinning = A2(_user$project$Update$currentPlayerWinning, _p5, model.boxes);
+				var moveWasValid = _p2._1;
+				var moreTurns = _user$project$GameLogic$areMoreTurnsInGame(model.boxes);
+				var _p3 = function () {
+					var _p4 = {ctor: '_Tuple3', _0: moreTurns, _1: moveWasValid, _2: playerIsWinning};
+					_v3_0:
+					do {
+						if (_p4._2 === true) {
+							if ((_p4._0 === true) && (_p4._1 === false)) {
+								break _v3_0;
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: _p5,
+									_1: _elm_lang$core$Maybe$Just(_p5)
+								};
+							}
 						} else {
-							return {ctor: '_Tuple2', _0: _p6, _1: _elm_lang$core$Maybe$Nothing};
+							if (_p4._0 === true) {
+								if (_p4._1 === false) {
+									break _v3_0;
+								} else {
+									return {
+										ctor: '_Tuple2',
+										_0: _user$project$Update$changePlayer(_p5),
+										_1: _elm_lang$core$Maybe$Nothing
+									};
+								}
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: _user$project$Player$Unclaimed,
+									_1: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
+								};
+							}
 						}
-					}
+					} while(false);
+					return {ctor: '_Tuple2', _0: _p5, _1: _elm_lang$core$Maybe$Nothing};
 				}();
-				var nextPlayer = _p4._0;
-				var winner = _p4._1;
+				var nextPlayer = _p3._0;
+				var winner = _p3._1;
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
@@ -9303,7 +9306,7 @@ var _user$project$Update$update = F2(
 						{winner: winner, currentPlayer: nextPlayer}),
 					{ctor: '[]'});
 			default:
-				return A2(_user$project$EventHandlers_OnClicked$onClicked, model, _p3._1);
+				return A2(_user$project$EventHandlers_OnClicked$onClicked, model, _p2._1);
 		}
 	});
 
