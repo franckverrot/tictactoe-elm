@@ -9265,58 +9265,43 @@ var _user$project$Update$update = F2(
 					_user$project$Model$initialModel,
 					{ctor: '[]'});
 			case 'CheckWinner':
-				var _p7 = _p3._0;
-				if (_user$project$GameLogic$noneUnclaimed(model.boxes)) {
-					var _p4 = A2(_user$project$Update$playerWon, _p7, model);
-					if (_p4.ctor === 'Ok') {
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							_elm_lang$core$Native_Utils.update(
-								model,
-								{
-									winner: _elm_lang$core$Maybe$Just(_p4._0)
-								}),
-							{ctor: '[]'});
+				var _p6 = _p3._0;
+				var _p4 = function () {
+					if (_user$project$GameLogic$noneUnclaimed(model.boxes)) {
+						return A2(_user$project$Update$currentPlayerWinning, _p6, model.boxes) ? {
+							ctor: '_Tuple2',
+							_0: _p6,
+							_1: _elm_lang$core$Maybe$Just(_p6)
+						} : {
+							ctor: '_Tuple2',
+							_0: _user$project$Player$Unclaimed,
+							_1: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
+						};
 					} else {
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							_elm_lang$core$Native_Utils.update(
-								model,
-								{
-									winner: _elm_lang$core$Maybe$Just(_user$project$Player$Unclaimed)
-								}),
-							{ctor: '[]'});
-					}
-				} else {
-					var _p5 = _p3._1;
-					if (_p5 === true) {
-						var _p6 = A2(_user$project$Update$playerWon, _p7, model);
-						if (_p6.ctor === 'Ok') {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								_elm_lang$core$Native_Utils.update(
-									model,
-									{
-										winner: _elm_lang$core$Maybe$Just(_p6._0)
-									}),
-								{ctor: '[]'});
+						var _p5 = _p3._1;
+						if (_p5 === true) {
+							return A2(_user$project$Update$currentPlayerWinning, _p6, model.boxes) ? {
+								ctor: '_Tuple2',
+								_0: _p6,
+								_1: _elm_lang$core$Maybe$Just(_p6)
+							} : {
+								ctor: '_Tuple2',
+								_0: _user$project$Update$changePlayer(_p6),
+								_1: _elm_lang$core$Maybe$Nothing
+							};
 						} else {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								_elm_lang$core$Native_Utils.update(
-									model,
-									{
-										currentPlayer: _user$project$Update$changePlayer(_p7)
-									}),
-								{ctor: '[]'});
+							return {ctor: '_Tuple2', _0: _p6, _1: _elm_lang$core$Maybe$Nothing};
 						}
-					} else {
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							model,
-							{ctor: '[]'});
 					}
-				}
+				}();
+				var nextPlayer = _p4._0;
+				var winner = _p4._1;
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{winner: winner, currentPlayer: nextPlayer}),
+					{ctor: '[]'});
 			default:
 				return A2(_user$project$EventHandlers_OnClicked$onClicked, model, _p3._1);
 		}

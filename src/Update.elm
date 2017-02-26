@@ -17,8 +17,6 @@ changePlayer p = case p of
                    B -> A
                    _ -> A
 
-type alias GameStatus = Result String Player
-
 winningCombos : List (List Int)
 winningCombos =
   [ -- rows     -- cols    -- diags
@@ -44,35 +42,41 @@ currentPlayerWinning currentPlayer boxes =
         |> List.filter ((==) True)
         |> List.isEmpty |> not
 
-playerWon : Player -> Model -> GameStatus
-playerWon player model =
-  case currentPlayerWinning player model.boxes of
-    True  -> Ok player
-    False -> Err "Not there yet!"
-
 update : GameEvent -> Model -> (Model, Cmd GameEvent)
 update msg model =
   case msg of
     Reset -> initialModel ! []
 
     CheckWinner player currentPlayerShouldChange _ ->
-      if noneUnclaimed model.boxes then
-        case playerWon player model of
-          -- There's a winner
-          Ok player -> { model | winner = Just player         } ! []
-          -- it's a draw
-          Err _     -> { model | winner = Just Unclaimed } ! []
+      let
+          (nextPlayer, winner) =
+            if noneUnclaimed model.boxes then
+              if currentPlayerWinning player model.boxes then
+                -- There's a winner
+                (player, Just player)
+              else
+                -- it's a draw
+                (Unclaimed, Just Unclaimed)
 
-      else
-        case currentPlayerShouldChange of
-          -- Legal move
-          True -> case playerWon player model of
+            else
+              case currentPlayerShouldChange of
+                -- Legal move
+                True ->
+                  if currentPlayerWinning player model.boxes then
                     -- There's a winner
-                    Ok player -> { model | winner        = Just player         } ! []
+                    (player, Just player)
+                  else
                     -- Let's switch players
-                    Err _     -> { model | currentPlayer = changePlayer player } ! []
+                    (changePlayer player, Nothing)
 
-          -- Illegal move, same player should play again
-          False -> model ! []
+                -- Illegal move, same player should play again
+                False ->
+                  (player, Nothing)
+
+      in
+          { model
+          | winner        = winner
+          , currentPlayer = nextPlayer
+          } ! []
 
     BoxClicked (Box player) index -> EventHandlers.OnClicked.onClicked model index
