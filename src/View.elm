@@ -7,13 +7,13 @@ import Html            exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events     exposing (..)
 import Model           exposing (..)
-import MyEvent         exposing (..)
+import GameEvent       exposing (..)
 import Player          exposing (..)
 
 { id, class, classList } =
   indexNamespace
 
-view : Model -> Html MyEvent
+view : Model -> Html GameEvent
 view model =
   let
      box index = get index model.boxes

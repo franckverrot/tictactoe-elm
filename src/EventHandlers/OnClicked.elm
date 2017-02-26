@@ -7,14 +7,13 @@ module EventHandlers.OnClicked exposing ( onClicked )
 import Array     exposing (..)
 import Maybe     exposing (..)
 import Model     exposing (..)
-import MyEvent   exposing (..)
+import GameEvent exposing (..)
 import Player    exposing (..)
 import Task      exposing (..)
 import Time      exposing (..)
-import GameLogic exposing (noneUnclaimed)
 
 {-| onClicked -}
-onClicked : Model -> Int -> (Model, Cmd MyEvent)
+onClicked : Model -> Int -> (Model, Cmd GameEvent)
 onClicked model index =
         let
             markBoxForPlayer player = set index player

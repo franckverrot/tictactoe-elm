@@ -1,8 +1,8 @@
-module MyEvent exposing ( MyEvent(Clicked, CheckWinner, Reset)
-                      )
+module GameEvent exposing ( GameEvent(Clicked, CheckWinner, Reset)
+                          )
 import Player  exposing (..)
 import Time    exposing (..)
 
-type MyEvent = Clicked Int
+type GameEvent = Clicked Int
              | CheckWinner Player Bool Time
              | Reset

@@ -4,10 +4,10 @@ import Test   exposing (..)
 import Expect
 import Array
 import Model   exposing (initialModel)
-import MyEvent exposing (MyEvent(Clicked, CheckWinner, Reset))
-import Player  exposing (Player (A, B, Unclaimed))
-import Update  exposing (changePlayer, currentPlayerWinning, update)
-import Time    exposing (second)
+import GameEvent exposing (GameEvent(Clicked, CheckWinner, Reset))
+import Player    exposing (Player (A, B, Unclaimed))
+import Update    exposing (changePlayer, currentPlayerWinning, update)
+import Time      exposing (second)
 
 updateTests : List Test
 updateTests = [ describe "Update.update"

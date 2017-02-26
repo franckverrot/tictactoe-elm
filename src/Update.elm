@@ -7,7 +7,7 @@ import Array                   exposing (..)
 import EventHandlers.OnClicked
 import GameLogic               exposing (noneUnclaimed)
 import Model                   exposing (..)
-import MyEvent                 exposing (..)
+import GameEvent                 exposing (..)
 import Player                  exposing (..)
 
 changePlayer : Player -> Player
@@ -48,7 +48,7 @@ playerWon player model =
     True  -> Ok player
     False -> Err "Not there yet!"
 
-update : MyEvent -> Model -> (Model, Cmd MyEvent)
+update : GameEvent -> Model -> (Model, Cmd GameEvent)
 update msg model =
   case msg of
     Reset -> initialModel ! []

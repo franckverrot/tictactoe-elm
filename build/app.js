@@ -8979,25 +8979,13 @@ var _user$project$Model$Model = F3(
 		return {boxes: a, currentPlayer: b, winner: c};
 	});
 
-var _user$project$MyEvent$Reset = {ctor: 'Reset'};
-var _user$project$MyEvent$CheckWinner = F3(
+var _user$project$GameEvent$Reset = {ctor: 'Reset'};
+var _user$project$GameEvent$CheckWinner = F3(
 	function (a, b, c) {
 		return {ctor: 'CheckWinner', _0: a, _1: b, _2: c};
 	});
-var _user$project$MyEvent$Clicked = function (a) {
+var _user$project$GameEvent$Clicked = function (a) {
 	return {ctor: 'Clicked', _0: a};
-};
-
-var _user$project$GameLogic$noneUnclaimed = function (ary) {
-	return _elm_lang$core$Native_Utils.eq(
-		0,
-		_elm_lang$core$Array$length(
-			A2(
-				_elm_lang$core$Array$filter,
-				function (x) {
-					return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
-				},
-				ary)));
 };
 
 var _user$project$EventHandlers_OnClicked$onClicked = F2(
@@ -9026,7 +9014,7 @@ var _user$project$EventHandlers_OnClicked$onClicked = F2(
 				{
 					ctor: '_Tuple2',
 					_0: A2(_p1._0, model.currentPlayer, model.boxes),
-					_1: A2(_user$project$MyEvent$CheckWinner, model.currentPlayer, _p1._1)
+					_1: A2(_user$project$GameEvent$CheckWinner, model.currentPlayer, _p1._1)
 				});
 		}(
 			function (box) {
@@ -9042,6 +9030,18 @@ var _user$project$EventHandlers_OnClicked$onClicked = F2(
 					_user$project$Player$Unclaimed,
 					A2(_elm_lang$core$Array$get, index, model.boxes))));
 	});
+
+var _user$project$GameLogic$noneUnclaimed = function (ary) {
+	return _elm_lang$core$Native_Utils.eq(
+		0,
+		_elm_lang$core$Array$length(
+			A2(
+				_elm_lang$core$Array$filter,
+				function (x) {
+					return _elm_lang$core$Native_Utils.eq(x, _user$project$Player$Unclaimed);
+				},
+				ary)));
+};
 
 var _user$project$Update$winningCombos = {
 	ctor: '::',
@@ -9334,7 +9334,7 @@ var _user$project$View$view = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$MyEvent$Reset),
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$GameEvent$Reset),
 							_1: {
 								ctor: '::',
 								_0: _user$project$View$class(
@@ -9392,7 +9392,7 @@ var _user$project$View$view = function (model) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						_user$project$MyEvent$Clicked(index)),
+						_user$project$GameEvent$Clicked(index)),
 					_1: {
 						ctor: '::',
 						_0: _user$project$View$class(
